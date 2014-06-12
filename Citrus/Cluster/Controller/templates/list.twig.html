@@ -9,6 +9,6 @@
 {% endblock %}
 
 
-{%block javascripts%}{{parent()}}{% javascripts 'Citrus/Controller/templates/list.js' filter='yui_js' output='/js/list_*.js' %}
+{%block javascripts%}{{parent()}}{% javascripts '../vendor/citrus/cluster/Citrus/Cluster/Controller/templates/list.js' filter='yui_js' output='/js/list_*.js' %}
 		<script src="{{ asset_url }}"></script>
 {% endjavascripts %}{% endblock %}
