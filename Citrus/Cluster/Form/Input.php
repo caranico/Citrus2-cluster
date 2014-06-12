@@ -1,8 +1,8 @@
 <?php
 
-namespace Yvelines\Citrus\Form;
-use Yvelines\Citrus\TArray,
-    Yvelines\Citrus\Orm\ModelDispatcher;
+namespace Citrus\Cluster\Form;
+use Citrus\Cluster\TArray,
+    Citrus\Cluster\Orm\ModelDispatcher;
 
 abstract class Input extends Element {
 
@@ -20,11 +20,11 @@ abstract class Input extends Element {
     const BUTTON			= 'button';
 
     static private $elements = array(
-    	self::INPUT_TEXT => '\Yvelines\Citrus\Form\Elements\InputText',
-        self::INPUT_HIDDEN => '\Yvelines\Citrus\Form\Elements\InputHidden',
-        self::INPUT_PASSWORD => '\Yvelines\Citrus\Form\Elements\InputPassword',
-        self::SELECT_ONE => '\Yvelines\Citrus\Form\Elements\SelectOne',
-        self::SELECT_MANY => '\Yvelines\Citrus\Form\Elements\SelectMany',
+    	self::INPUT_TEXT => '\Citrus\Cluster\Form\Elements\InputText',
+        self::INPUT_HIDDEN => '\Citrus\Cluster\Form\Elements\InputHidden',
+        self::INPUT_PASSWORD => '\Citrus\Cluster\Form\Elements\InputPassword',
+        self::SELECT_ONE => '\Citrus\Cluster\Form\Elements\SelectOne',
+        self::SELECT_MANY => '\Citrus\Cluster\Form\Elements\SelectMany',
     );
 
     static public function addElement( $ident, $args ) 

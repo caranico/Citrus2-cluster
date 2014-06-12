@@ -1,6 +1,6 @@
 <?php
 
-namespace Yvelines\Citrus\Session;
+namespace Citrus\Cluster\Session;
 use Citrus\Core\System\ServiceProviderInterface;
 
 class SessionServiceProvider implements ServiceProviderInterface {

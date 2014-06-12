@@ -1,6 +1,6 @@
 <?php
 
-namespace Yvelines\Citrus\View;
+namespace Citrus\Cluster\View;
 
 interface TemplateEngineInterface {
 

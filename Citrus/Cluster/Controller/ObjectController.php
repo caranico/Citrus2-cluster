@@ -1,10 +1,10 @@
 <?php
 
-namespace Yvelines\Citrus\Controller;
+namespace Citrus\Cluster\Controller;
 
 use Symfony\Component\HttpFoundation\Request as SfRequest;
-use Yvelines\Citrus\Response\ResponseCachedJson;
-use Yvelines\Citrus\Form;
+use Citrus\Cluster\Response\ResponseCachedJson;
+use Citrus\Cluster\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ObjectController extends Controller {

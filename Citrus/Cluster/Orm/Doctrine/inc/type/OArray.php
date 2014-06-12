@@ -23,7 +23,7 @@
  * @license http://opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Yvelines\Citrus\Orm\Doctrine\inc\type;
+namespace Citrus\Cluster\Orm\Doctrine\inc\type;
 
 class OArray implements \Countable, \IteratorAggregate, \ArrayAccess
 {	

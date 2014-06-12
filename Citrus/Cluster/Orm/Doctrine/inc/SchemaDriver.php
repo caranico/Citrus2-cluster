@@ -23,14 +23,14 @@
  * @license http://opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Yvelines\Citrus\Orm\Doctrine\inc;
+namespace Citrus\Cluster\Orm\Doctrine\inc;
 
 use Doctrine\Common\Persistence\Mapping,
     Doctrine\ORM\Mapping\ClassMetadataInfo,
     Doctrine\ORM\Mapping\Builder\EntityListenerBuilder,
-    Yvelines\Citrus\Orm\Doctrine\Schema,
-    Yvelines\Citrus\Orm\Doctrine\Adapter,
-    Yvelines\Citrus\Orm\Doctrine\Enum;
+    Citrus\Cluster\Orm\Doctrine\Schema,
+    Citrus\Cluster\Orm\Doctrine\Adapter,
+    Citrus\Cluster\Orm\Doctrine\Enum;
 
 class SchemaDriver extends Mapping\Driver\FileDriver
 {

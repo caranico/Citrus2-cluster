@@ -1,7 +1,7 @@
 <?php
 
-namespace Yvelines\Citrus\View\Twig;
-use Yvelines\Citrus\View\TemplateEngineInterface;
+namespace Citrus\Cluster\View\Twig;
+use Citrus\Cluster\View\TemplateEngineInterface;
 use Assetic\AssetWriter;
 use Assetic\Extension\Twig\TwigFormulaLoader;
 use Assetic\Extension\Twig\TwigResource;
@@ -10,7 +10,7 @@ use Assetic\Extension\Twig\AsseticExtension;
 use Assetic\Factory\AssetFactory;
 use Assetic\Filter\Yui;
 use Assetic\FilterManager;
-use Yvelines\Citrus\TObject;
+use Citrus\Cluster\TObject;
 
 class TwigTemplateEngine extends \Twig_Environment implements TemplateEngineInterface {
 

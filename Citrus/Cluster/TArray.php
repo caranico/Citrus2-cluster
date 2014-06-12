@@ -1,6 +1,6 @@
 <?php
 
-namespace Yvelines\Citrus;
+namespace Citrus\Cluster;
 
 
 class TArray extends \ArrayObject {

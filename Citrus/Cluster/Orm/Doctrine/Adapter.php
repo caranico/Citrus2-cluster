@@ -23,7 +23,7 @@
  * @license http://opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Yvelines\Citrus\Orm\Doctrine;
+namespace Citrus\Cluster\Orm\Doctrine;
 
 use Doctrine\ORM,
 	Doctrine\DBAL\Types\Type,
@@ -120,8 +120,8 @@ Class Adapter extends inc\Synapse {
 
 			$lst[ $idBdd ] = $em;
     		$this->setAllEntitymanagers( $lst );
-    		$this->_addType( $em->getConnection(), Schema::TARRAY , '\Yvelines\Citrus\Orm\Doctrine\inc\type\ArrayType');
-    		$this->_addType( $em->getConnection(), Schema::JSON_ARRAY , '\Yvelines\Citrus\Orm\Doctrine\inc\type\JsonArrayType');
+    		$this->_addType( $em->getConnection(), Schema::TARRAY , '\Citrus\Cluster\Orm\Doctrine\inc\type\ArrayType');
+    		$this->_addType( $em->getConnection(), Schema::JSON_ARRAY , '\Citrus\Cluster\Orm\Doctrine\inc\type\JsonArrayType');
     	}
         $this->setCurrent( $idBdd );
         $this->setEntitymanager( $lst[ $idBdd ] );

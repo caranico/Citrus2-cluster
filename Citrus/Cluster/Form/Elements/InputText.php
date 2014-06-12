@@ -1,8 +1,8 @@
 <?php
 
-namespace Yvelines\Citrus\Form\Elements;
+namespace Citrus\Cluster\Form\Elements;
 
-use Yvelines\Citrus\Form\Input;
+use Citrus\Cluster\Form\Input;
 
 class InputText extends Input {
 

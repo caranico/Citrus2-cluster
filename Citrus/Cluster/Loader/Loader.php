@@ -1,6 +1,6 @@
 <?php
 
-namespace Yvelines\Citrus\Loader;
+namespace Citrus\Cluster\Loader;
 
 interface Loader 
 {

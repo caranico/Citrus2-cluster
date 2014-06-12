@@ -1,11 +1,11 @@
 <?php
 
-namespace Yvelines\Citrus\Controller;
+namespace Citrus\Cluster\Controller;
 
 use Symfony\Component\HttpKernel\Controller\ControllerResolver as SfControllerResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
-use Yvelines\Citrus\TArray;
+use Citrus\Cluster\TArray;
 
 class ControllerResolver extends SfControllerResolver
 {

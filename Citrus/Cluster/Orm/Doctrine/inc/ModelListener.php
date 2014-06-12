@@ -23,10 +23,10 @@
  * @license http://opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Yvelines\Citrus\Orm\Doctrine\inc;
+namespace Citrus\Cluster\Orm\Doctrine\inc;
 
 use \Doctrine\ORM\Event,
-    \Yvelines\Citrus\Orm\Doctrine\Schema;
+    \Citrus\Cluster\Orm\Doctrine\Schema;
 
 class ModelListener
 {
@@ -53,7 +53,7 @@ class ModelListener
                 case Schema::TARRAY:
                 case Schema::JSON_ARRAY:
                     $value = $obj->getData( $ref );
-                    if ( is_object( $value ) && get_class( $value ) == 'Yvelines\Citrus\Orm\Doctrine\inc\type\OArray' && $value->hasChanged() ) 
+                    if ( is_object( $value ) && get_class( $value ) == 'Citrus\Cluster\Orm\Doctrine\inc\type\OArray' && $value->hasChanged() ) 
                         $obj->getEntitymanager()->getUnitOfWork()->propertyChanged( $obj, $ref, null, $obj->getData( $ref ) );
                 break;
             }

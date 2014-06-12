@@ -1,8 +1,8 @@
 <?php
 
-namespace Yvelines\Citrus\Form\Elements;
+namespace Citrus\Cluster\Form\Elements;
 
-use Yvelines\Citrus\Form\Input;
+use Citrus\Cluster\Form\Input;
 
 class SelectOne extends Input {
 
@@ -42,7 +42,7 @@ class SelectOne extends Input {
 
     private function renderOptions() {
         if (!isset( $this->params['options'])) return;
-        $reel = is_a( $this->value, '\Yvelines\Citrus\Orm\ModelInterface') ? $this->value->id : $this->value;
+        $reel = is_a( $this->value, '\Citrus\Cluster\Orm\ModelInterface') ? $this->value->id : $this->value;
         $res = array();
         foreach ($this->params['options'] as $id=>$el)
             $res [] = '<option value="' . $id . '"' . ($id == $reel ? ' selected="selected"':''). '>' . $el . '</option>';
@@ -51,7 +51,7 @@ class SelectOne extends Input {
 
     private function renderRadios() {
         if (!isset( $this->params['options'])) return;
-        $reel = is_a( $this->value, '\Yvelines\Citrus\Orm\ModelInterface') ? $this->value->id : $this->value;
+        $reel = is_a( $this->value, '\Citrus\Cluster\Orm\ModelInterface') ? $this->value->id : $this->value;
         $res = array();
         $first = true;
         foreach ($this->params['options'] as $id=>$el)

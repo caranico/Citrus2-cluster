@@ -23,7 +23,7 @@
  * @license http://opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Yvelines\Citrus\Orm\Doctrine;
+namespace Citrus\Cluster\Orm\Doctrine;
 
 use \Doctrine\DBAL\Types\Type,
 	\Doctrine\ORM\Mapping\ClassMetadataInfo,
@@ -154,7 +154,7 @@ Class Schema extends inc\Synapse {
             switch ($rel['type'])
             {
                 case self::MANY_TO_ONE :
-                    if (is_object( $propValue ) && is_a( $propValue , '\Yvelines\Citrus\Orm\ModelInterface'))
+                    if (is_object( $propValue ) && is_a( $propValue , '\Citrus\Cluster\Orm\ModelInterface'))
                         $obj->setData($propName,$propValue);
                     else if (isset($rel['foreign']['class']) && is_numeric( $propValue ))
                     {
@@ -364,12 +364,12 @@ Class Schema extends inc\Synapse {
 
         if ($sh) {
             if ($isController) {
-                $extend = '\Yvelines\Citrus\Controller\ObjectController';
+                $extend = '\Citrus\Cluster\Controller\ObjectController';
                 $namespace = substr($class, 0, strrpos($class,'\\'));
                 $className = substr($class, strlen($namespace) + 1 );
             } else {
                 $arrExt = $sh->getInformations('extend');
-                $extend = is_array($arrExt) && isset($arrExt['class']) ? $arrExt['class'] : ( is_string( $arrExt ) ? $arrExt : '\Yvelines\Citrus\Orm\Doctrine\Model' );
+                $extend = is_array($arrExt) && isset($arrExt['class']) ? $arrExt['class'] : ( is_string( $arrExt ) ? $arrExt : '\Citrus\Cluster\Orm\Doctrine\Model' );
                 $namespace = substr($class, 0, strrpos($class,'\\'));
                 $className = strlen($namespace) > 0 ? substr($class, strlen($namespace) + 1 ) : $class;
             }

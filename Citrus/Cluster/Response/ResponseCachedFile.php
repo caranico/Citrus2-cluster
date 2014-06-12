@@ -1,10 +1,10 @@
 <?php
-namespace Yvelines\Citrus\Response;
+namespace Citrus\Cluster\Response;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Assetic\Asset\FileAsset;
-use Yvelines\Citrus\View\AsseticFilter;
+use Citrus\Cluster\View\AsseticFilter;
 use Assetic\Filter\Yui;
 use Assetic\Asset\AssetCollection;
 

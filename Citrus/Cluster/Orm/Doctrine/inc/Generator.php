@@ -23,9 +23,9 @@
  * @license http://opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Yvelines\Citrus\Orm\Doctrine\inc;
+namespace Citrus\Cluster\Orm\Doctrine\inc;
 
-use Yvelines\Citrus\Orm\Doctrine\Adapter;
+use Citrus\Cluster\Orm\Doctrine\Adapter;
 
 class Generator {
 
@@ -270,7 +270,7 @@ class Generator {
 
         if (!is_file($dataSchemaFile)) {
             $dataContent ='<?php'.chr(10).chr(10).
-                'use \Yvelines\Citrus\Orm\Doctrine\Schema as REF;'.chr(10).
+                'use \Citrus\Cluster\Orm\Doctrine\Schema as REF;'.chr(10).
                 'return ' . preg_replace( array_keys($reg), array_values($reg), var_export( $dataschema, true ) ).';' .chr(10).chr(10).
                 '?>'; 
             try {

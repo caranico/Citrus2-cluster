@@ -1,5 +1,5 @@
 <?php
-namespace Yvelines\Citrus\Response;
+namespace Citrus\Cluster\Response;
 
 use Symfony\Component\HttpFoundation\Request;
 

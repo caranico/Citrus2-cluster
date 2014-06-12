@@ -23,7 +23,7 @@
  * @license http://opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Yvelines\Citrus\Orm\Doctrine;
+namespace Citrus\Cluster\Orm\Doctrine;
 
 
 Class Enum {

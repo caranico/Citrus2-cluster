@@ -1,16 +1,16 @@
 <?php
 
-namespace Yvelines\Citrus\View\Twig;
+namespace Citrus\Cluster\View\Twig;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Yvelines\Citrus\Response\ResponseCached;
-use Yvelines\Citrus\Response\ResponseCachedJson;
-use Yvelines\Citrus\Response\ResponseCachedJsonEnv;
-use Yvelines\Citrus\Response\ResponseCachedCsv;
-use Yvelines\Citrus\Response\ResponseCachedXls;
+use Citrus\Cluster\Response\ResponseCached;
+use Citrus\Cluster\Response\ResponseCachedJson;
+use Citrus\Cluster\Response\ResponseCachedJsonEnv;
+use Citrus\Cluster\Response\ResponseCachedCsv;
+use Citrus\Cluster\Response\ResponseCachedXls;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;

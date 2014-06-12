@@ -1,8 +1,8 @@
 <?php
 
-namespace Yvelines\Citrus\Form\Elements;
+namespace Citrus\Cluster\Form\Elements;
 
-use Yvelines\Citrus\Form\Input;
+use Citrus\Cluster\Form\Input;
 
 class SelectMany extends Input {
 
@@ -45,7 +45,7 @@ class SelectMany extends Input {
 
     private function renderOptions() {
         if (!isset( $this->params['options'])) return;
-        $reel = is_a( $this->value, '\Yvelines\Citrus\Orm\ModelInterface') ? $this->value->id : $this->value;
+        $reel = is_a( $this->value, '\Citrus\Cluster\Orm\ModelInterface') ? $this->value->id : $this->value;
         $res = array();
         foreach ($this->params['options'] as $id=>$el)
             $res [] = '<option value="' . $id . '">' . $el . '</option>';
@@ -66,7 +66,7 @@ class SelectMany extends Input {
 
     private function renderCheckboxes() {
         if (!isset( $this->params['options'])) return;
-        $reel = is_a( $this->value, '\Yvelines\Citrus\Orm\ModelInterface') ? $this->value->id : $this->value;
+        $reel = is_a( $this->value, '\Citrus\Cluster\Orm\ModelInterface') ? $this->value->id : $this->value;
         $res = array();
         $val = explode(',',$this->renderValues(false));
         foreach ($this->params['options'] as $id=>$el)

@@ -1,5 +1,5 @@
 <?php
-namespace Yvelines\Citrus\Orm;
+namespace Citrus\Cluster\Orm;
 
 abstract class ModelDispatcher {
 
@@ -7,8 +7,8 @@ abstract class ModelDispatcher {
     const SCHEMA 			= 'schema';
 
     static private $elements = array(
-    	self::MODEL => '\Yvelines\Citrus\Orm\Doctrine\Model',
-    	self::SCHEMA => '\Yvelines\Citrus\Orm\Doctrine\Schema',
+    	self::MODEL => '\Citrus\Cluster\Orm\Doctrine\Model',
+    	self::SCHEMA => '\Citrus\Cluster\Orm\Doctrine\Schema',
     );
 
     static public function add( $ident, $args ) 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yvelines\Citrus\View\Twig;
+namespace Citrus\Cluster\View\Twig;
 
 class TwigTemplateResolver {
     protected $container;

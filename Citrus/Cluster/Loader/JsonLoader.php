@@ -1,6 +1,6 @@
 <?php
 
-namespace Yvelines\Citrus\Loader;
+namespace Citrus\Cluster\Loader;
 
 class JsonLoader implements Loader {
     protected $content;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yvelines\Citrus\View\AsseticFilter;
+namespace Citrus\Cluster\View\AsseticFilter;
 
 use Assetic\Asset\AssetInterface;  
 use Assetic\Filter\FilterInterface;

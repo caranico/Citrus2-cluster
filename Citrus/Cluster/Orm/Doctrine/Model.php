@@ -23,11 +23,11 @@
  * @license http://opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Yvelines\Citrus\Orm\Doctrine;
+namespace Citrus\Cluster\Orm\Doctrine;
 
 use Doctrine\ORM;
-use Yvelines\Citrus\Orm\Doctrine\Adapter;
-use Yvelines\Citrus\Orm\ModelInterface;
+use Citrus\Cluster\Orm\Doctrine\Adapter;
+use Citrus\Cluster\Orm\ModelInterface;
 
 Class Model extends inc\Synapse implements ModelInterface {
 

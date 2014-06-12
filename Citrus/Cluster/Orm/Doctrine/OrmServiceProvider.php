@@ -1,6 +1,6 @@
 <?php
 
-namespace Yvelines\Citrus\Orm\Doctrine;
+namespace Citrus\Cluster\Orm\Doctrine;
 use Citrus\Core\System\ServiceProviderInterface;
 
 class OrmServiceProvider implements ServiceProviderInterface {
@@ -12,7 +12,7 @@ class OrmServiceProvider implements ServiceProviderInterface {
 
     	if (isset($app['config']['doctrine']) && is_array($app['config']['doctrine'])) {
 
-    		spl_autoload_register( array( '\Yvelines\Citrus\Orm\Doctrine\Adapter', 'autoload' ) );
+    		spl_autoload_register( array( '\Citrus\Cluster\Orm\Doctrine\Adapter', 'autoload' ) );
     		foreach ($app['config']['doctrine'] as $id => $conf )
     			Adapter::addBdd( $id, $conf );
    		}

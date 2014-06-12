@@ -23,11 +23,11 @@
  * @license http://opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Yvelines\Citrus\Orm\Doctrine\inc\type;
+namespace Citrus\Cluster\Orm\Doctrine\inc\type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform,
     \Doctrine\DBAL\Types\Type,
-    \Yvelines\Citrus\Orm\Doctrine\Schema;
+    \Citrus\Cluster\Orm\Doctrine\Schema;
 
 class ArrayType extends Type
 {

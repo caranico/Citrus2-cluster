@@ -1,6 +1,6 @@
 <?php
 
-namespace Yvelines\Citrus\Form;
+namespace Citrus\Cluster\Form;
 
 abstract class Element {
 

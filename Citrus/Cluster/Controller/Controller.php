@@ -1,6 +1,6 @@
 <?php
 
-namespace Yvelines\Citrus\Controller;
+namespace Citrus\Cluster\Controller;
 
 use Symfony\Component\HttpFoundation\Request as SfRequest;
 use Symfony\Component\HttpFoundation\Response as SfResponse;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Yvelines\Citrus\Form;
+namespace Citrus\Cluster\Form;
 
-use Yvelines\Citrus\Controller\ObjectController;
-use Yvelines\Citrus\TObject;
+use Citrus\Cluster\Controller\ObjectController;
+use Citrus\Cluster\TObject;
 
 class Form extends Element {
 	protected $properties;
@@ -31,7 +31,7 @@ class Form extends Element {
     {        
     	if (is_array( $mixed ))
     		$this->values = (object) $mixed;
-    	else if (is_object( $mixed ) && is_a( $mixed, '\Yvelines\Citrus\Orm\ModelInterface'))
+    	else if (is_object( $mixed ) && is_a( $mixed, '\Citrus\Cluster\Orm\ModelInterface'))
     		$this->values = $mixed;
     	if ($render) $this->render();
     }

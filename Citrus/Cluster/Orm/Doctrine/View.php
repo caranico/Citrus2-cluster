@@ -23,10 +23,10 @@
  * @license http://opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Yvelines\Citrus\Orm\Doctrine;
+namespace Citrus\Cluster\Orm\Doctrine;
 
-use Yvelines\Citrus\Controller\ObjectController;
-use Yvelines\Citrus\TObject;
+use Citrus\Cluster\Controller\ObjectController;
+use Citrus\Cluster\TObject;
 
 Class View extends inc\Synapse {
 
@@ -248,7 +248,7 @@ Class View extends inc\Synapse {
 				if (is_object($value)) {
 					if ( get_class($value) == 'DateTime' ) $cell[ $col ] = $value->format('d/m/Y H:i:s');
 					else if ( get_class( $value ) == 'Doctrine\ORM\PersistentCollection' ) $cell[ $col ] = count( $value );
-					else if ( is_a( $value, 'Yvelines\Citrus\Orm\Doctrine\Model' ) ) $cell[ $col ] = (string) $value;
+					else if ( is_a( $value, 'Citrus\Cluster\Orm\Doctrine\Model' ) ) $cell[ $col ] = (string) $value;
 				}
 				else {
 					if ( isset($lstOption['link']) && in_array( $col,  $lstOption['link'])) {
