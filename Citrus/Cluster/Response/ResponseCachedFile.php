@@ -1,12 +1,12 @@
 <?php
 namespace Citrus\Cluster\Response;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Assetic\Asset\FileAsset;
-use Citrus\Cluster\View\AsseticFilter;
-use Assetic\Filter\Yui;
-use Assetic\Asset\AssetCollection;
+use Symfony\Component\HttpFoundation\Response,
+	Symfony\Component\HttpFoundation\Request,
+	Assetic\Asset\FileAsset,
+	Citrus\Cluster\View\AsseticFilter,
+	Assetic\Filter\Yui,
+	Assetic\Asset\AssetCollection;
 
 class ResponseCachedFile extends Response
 {

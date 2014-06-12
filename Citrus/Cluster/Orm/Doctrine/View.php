@@ -25,8 +25,8 @@
 
 namespace Citrus\Cluster\Orm\Doctrine;
 
-use Citrus\Cluster\Controller\ObjectController;
-use Citrus\Cluster\TObject;
+use Citrus\Cluster\Controller\ObjectController,
+	Citrus\Cluster\TObject;
 
 Class View extends inc\Synapse {
 

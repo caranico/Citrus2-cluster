@@ -1,16 +1,16 @@
 <?php
 
 namespace Citrus\Cluster\View\Twig;
-use Citrus\Cluster\View\TemplateEngineInterface;
-use Assetic\AssetWriter;
-use Assetic\Extension\Twig\TwigFormulaLoader;
-use Assetic\Extension\Twig\TwigResource;
-use Assetic\Factory\LazyAssetManager;
-use Assetic\Extension\Twig\AsseticExtension;
-use Assetic\Factory\AssetFactory;
-use Assetic\Filter\Yui;
-use Assetic\FilterManager;
-use Citrus\Cluster\TObject;
+use Citrus\Cluster\View\TemplateEngineInterface,
+    Assetic\AssetWriter,
+    Assetic\Extension\Twig\TwigFormulaLoader,
+    Assetic\Extension\Twig\TwigResource,
+    Assetic\Factory\LazyAssetManager,
+    Assetic\Extension\Twig\AsseticExtension,
+    Assetic\Factory\AssetFactory,
+    Assetic\Filter\Yui,
+    Assetic\FilterManager,
+    Citrus\Cluster\TObject;
 
 class TwigTemplateEngine extends \Twig_Environment implements TemplateEngineInterface {
 

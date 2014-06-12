@@ -25,9 +25,9 @@
 
 namespace Citrus\Cluster\Orm\Doctrine;
 
-use Doctrine\ORM;
-use Citrus\Cluster\Orm\Doctrine\Adapter;
-use Citrus\Cluster\Orm\ModelInterface;
+use Doctrine\ORM,
+    Citrus\Cluster\Orm\Doctrine\Adapter,
+    Citrus\Cluster\Orm\ModelInterface;
 
 Class Model extends inc\Synapse implements ModelInterface {
 

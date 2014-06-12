@@ -2,10 +2,10 @@
 
 namespace Citrus\Cluster\Controller;
 
-use Symfony\Component\HttpFoundation\Request as SfRequest;
-use Citrus\Cluster\Response\ResponseCachedJson;
-use Citrus\Cluster\Form;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request as SfRequest,
+	Citrus\Cluster\Response\ResponseCachedJson,
+	Citrus\Cluster\Form,
+	Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ObjectController extends Controller {
 

@@ -2,9 +2,9 @@
 
 namespace Citrus\Cluster\Controller;
 
-use Symfony\Component\HttpFoundation\Request as SfRequest;
-use Symfony\Component\HttpFoundation\Response as SfResponse;
-use Citrus\Core\Controller\ControllerInterface;
+use Symfony\Component\HttpFoundation\Request as SfRequest,
+    Symfony\Component\HttpFoundation\Response as SfResponse,
+    Citrus\Core\Controller\ControllerInterface;
 
 class Controller implements ControllerInterface
 {

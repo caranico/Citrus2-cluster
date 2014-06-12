@@ -2,8 +2,8 @@
 
 namespace Citrus\Cluster\Form;
 
-use Citrus\Cluster\Controller\ObjectController;
-use Citrus\Cluster\TObject;
+use Citrus\Cluster\Controller\ObjectController,
+    Citrus\Cluster\TObject;
 
 class Form extends Element {
 	protected $properties;

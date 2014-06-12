@@ -1,8 +1,8 @@
 <?php
 namespace Citrus\Cluster\Response;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response,
+	Symfony\Component\HttpFoundation\Request;
 
 
 class ResponseCached extends Response

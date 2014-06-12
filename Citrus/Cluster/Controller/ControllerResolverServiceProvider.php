@@ -1,8 +1,8 @@
 <?php
 namespace Citrus\Cluster\Controller;
 
-use Citrus\Core\Controller\ControllerResolverServiceProvider as CitrusControllerResolverServiceProvider;
-use Citrus\Cluster\Controller\ControllerResolver;
+use Citrus\Core\Controller\ControllerResolverServiceProvider as CitrusControllerResolverServiceProvider,
+	Citrus\Cluster\Controller\ControllerResolver;
 
 class ControllerResolverServiceProvider extends CitrusControllerResolverServiceProvider {
     public function register($app)

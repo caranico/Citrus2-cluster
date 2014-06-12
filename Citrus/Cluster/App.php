@@ -2,25 +2,23 @@
 
 namespace Citrus\Cluster;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\HttpCache\HttpCache;
-use Symfony\Component\HttpKernel\HttpCache\Store;
-
-use Citrus\Core\Event\EventServiceProvider;
-use Citrus\Core\Routing\RoutingServiceProvider;
-use Citrus\Core\KernelServiceProvider;
-use Citrus\Core\App as CitrusApp;
-
-use Citrus\Cluster\Loader\JsonLoader;
-use Citrus\Cluster\Controller\ControllerResolverServiceProvider;
-use Citrus\Cluster\View;
-use Citrus\Cluster\Session\SessionServiceProvider;
-use Citrus\Cluster\Context;
-use Citrus\Cluster\Orm;
-use Citrus\Cluster\TArray;
-use Citrus\Cluster\TObject;
-use Citrus\Cluster\Response\ResponseCached;
-use Citrus\Cluster\Response\ResponseCachedJsonEnv;
+use Symfony\Component\HttpFoundation\Request,
+    Symfony\Component\HttpKernel\HttpCache\HttpCache,
+    Symfony\Component\HttpKernel\HttpCache\Store,
+    Citrus\Core\Event\EventServiceProvider,
+    Citrus\Core\Routing\RoutingServiceProvider,
+    Citrus\Core\KernelServiceProvider,
+    Citrus\Core\App as CitrusApp,
+    Citrus\Cluster\Loader\JsonLoader,
+    Citrus\Cluster\Controller\ControllerResolverServiceProvider,
+    Citrus\Cluster\View,
+    Citrus\Cluster\Session\SessionServiceProvider,
+    Citrus\Cluster\Context,
+    Citrus\Cluster\Orm,
+    Citrus\Cluster\TArray,
+    Citrus\Cluster\TObject,
+    Citrus\Cluster\Response\ResponseCached,
+    Citrus\Cluster\Response\ResponseCachedJsonEnv;
 
 class App extends CitrusApp
 {

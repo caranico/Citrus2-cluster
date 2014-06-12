@@ -2,19 +2,19 @@
 
 namespace Citrus\Cluster\View\Twig;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Citrus\Cluster\Response\ResponseCached;
-use Citrus\Cluster\Response\ResponseCachedJson;
-use Citrus\Cluster\Response\ResponseCachedJsonEnv;
-use Citrus\Cluster\Response\ResponseCachedCsv;
-use Citrus\Cluster\Response\ResponseCachedXls;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface,
+    Symfony\Component\HttpKernel\KernelEvents,
+    Symfony\Component\HttpFoundation\Request,
+    Symfony\Component\HttpFoundation\Response,
+    Citrus\Cluster\Response\ResponseCached,
+    Citrus\Cluster\Response\ResponseCachedJson,
+    Citrus\Cluster\Response\ResponseCachedJsonEnv,
+    Citrus\Cluster\Response\ResponseCachedCsv,
+    Citrus\Cluster\Response\ResponseCachedXls,
+    Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent,
+    Symfony\Component\HttpKernel\Event\FilterControllerEvent,
+    Symfony\Component\HttpKernel\Event\FilterResponseEvent,
+    Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 class TwigTemplateListener implements EventSubscriberInterface
 {

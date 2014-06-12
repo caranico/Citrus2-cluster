@@ -1,10 +1,8 @@
 <?php
 namespace Citrus\Cluster\Response;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Assetic\Asset\AssetCollection;
-
+use Symfony\Component\HttpFoundation\Response,
+    Symfony\Component\HttpFoundation\Request;
 
 class ResponseCachedJson extends Response
 {

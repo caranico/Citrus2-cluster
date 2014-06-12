@@ -2,8 +2,8 @@
 
 namespace Citrus\Cluster\View\AsseticFilter;
 
-use Assetic\Asset\AssetInterface;  
-use Assetic\Filter\FilterInterface;
+use Assetic\Asset\AssetInterface,
+    Assetic\Filter\FilterInterface;
 
 class CssUrlPath implements FilterInterface  
 {

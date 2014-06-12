@@ -2,10 +2,10 @@
 
 namespace Citrus\Cluster\Controller;
 
-use Symfony\Component\HttpKernel\Controller\ControllerResolver as SfControllerResolver;
-use Symfony\Component\HttpFoundation\Request;
-use Psr\Log\LoggerInterface;
-use Citrus\Cluster\TArray;
+use Symfony\Component\HttpKernel\Controller\ControllerResolver as SfControllerResolver,
+    Symfony\Component\HttpFoundation\Request,
+    Psr\Log\LoggerInterface,
+    Citrus\Cluster\TArray;
 
 class ControllerResolver extends SfControllerResolver
 {

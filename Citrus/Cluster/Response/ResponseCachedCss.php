@@ -1,9 +1,9 @@
 <?php
 namespace Citrus\Cluster\Response;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Assetic\Asset\AssetCollection;
+use Symfony\Component\HttpFoundation\Response,
+	Symfony\Component\HttpFoundation\Request,
+	Assetic\Asset\AssetCollection;
 
 
 class ResponseCachedCss extends Response
