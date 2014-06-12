@@ -47,7 +47,7 @@ abstract class App extends CitrusApp
         $this->loadConfig();
     }
 
-    private function loadConfig()
+    protected function loadConfig()
     {
         $this['routes'] = JsonLoader::get( $this->context['config'] . '/routing.json');
         $config = JsonLoader::get( $this->context['config'] . '/config.json');
