@@ -22,11 +22,11 @@ use Citrus\Cluster\TObject;
 use Citrus\Cluster\Response\ResponseCached;
 use Citrus\Cluster\Response\ResponseCachedJsonEnv;
 
-abstract class App extends CitrusApp
+class App extends CitrusApp
 {
     const VERSION = '2.0a-DEV';
 
-    protected $paths     = Array();
+    static public $path;
 
     protected $container = Array();
 
@@ -38,13 +38,8 @@ abstract class App extends CitrusApp
 
     public function __construct(Request $request, $debug = false)
     {
-        $this['request'] = $request;
-        $this['debug']   = $debug;
+        parent::__construct($request, $debug);
         $this->registerAutoload();
-        $this->context = new Context(array(
-            'config' => __DIR__ . '/Config'
-        ));
-        $this->loadConfig();
     }
 
     protected function loadConfig()
@@ -142,25 +137,27 @@ abstract class App extends CitrusApp
         else return $this->context[ $type ];
     }
 
-    private function registerAutoload() {
-        spl_autoload_register( array( 'Citrus\Cluster', 'loader' ) );
+    protected function registerAutoload() {
+        spl_autoload_register( array( 'Citrus\Cluster\App', 'loader' ) );
     }
 
     public static function start( $debug = false ) {
-        $app = new App( Request::createFromGlobals() , $debug );
+        $class= get_called_class();
+        $app = new $class( Request::createFromGlobals() , $debug );
         $app->run();
     }
 
     public static function standAlone( $debug = false ) {
-        $app = new App( Request::createFromGlobals() , $debug );
+        $class= get_called_class();
+        $app = new $class( Request::createFromGlobals() , $debug );
         $app->run( true );
         return $app;
     }
 
     public static function loader( $class ) {
         $file = str_replace( '\\', DIRECTORY_SEPARATOR, $class );
-        if ( file_exists( MUFFIN_PATH . "/../$file.php" ) )
-            include_once( MUFFIN_PATH . "/../$file.php" );
+        if ( file_exists( App::$path . "/../$file.php" ) )
+            include_once( App::$path . "/../$file.php" );
     }
 
     public function getDebug() {
@@ -168,11 +165,7 @@ abstract class App extends CitrusApp
     }
 
 
-    public function retrieveUser() {
-        $this->user = \Main\users\User::retrieveUser();
-    }
+    public function retrieveUser() {}
 
-    public function isUserLogged() {
-        return \Main\users\User::isLogged();
-    }
+    public function isUserLogged() {}
 }

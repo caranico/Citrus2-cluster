@@ -24,6 +24,7 @@ class TwigTemplateEngine extends \Twig_Environment implements TemplateEngineInte
         $loader = new \Twig_Loader_Filesystem( $this->base );
         foreach ($this->getTemplatesPath() as $id=>$path)
             $loader->addPath($path, $id);
+        $loader->addPath( dirname(dirname( __DIR__ )).'/Controller/templates' , 'CitrusController');
 
         parent::__construct( $loader , array(
             'cache' => $app->getContext('cache') . '/twig',
