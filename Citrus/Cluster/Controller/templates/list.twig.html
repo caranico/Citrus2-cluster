@@ -1,0 +1,14 @@
+{% extends layout %}
+
+{% block content %}
+		<div class="boxeSystem"><div class="boxeModuleElem" id="boxeListe">
+			<h2>Liste</h2>	
+            {{ jqgrid|raw }}
+		</div></div>
+
+{% endblock %}
+
+
+{%block javascripts%}{{parent()}}{% javascripts 'Citrus/Controller/templates/list.js' filter='yui_js' output='/js/list_*.js' %}
+		<script src="{{ asset_url }}"></script>
+{% endjavascripts %}{% endblock %}

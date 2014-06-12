@@ -1,0 +1,1 @@
+$('.boxeSystem #boxeListe').boxSystem();
