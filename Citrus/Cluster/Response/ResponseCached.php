@@ -12,7 +12,7 @@ class ResponseCached extends Response
 	{
 
 		$hash = md5( $content );
-		$headers = array('Etag' => $hash );
+		$headers = array_merge( $headers, array('Etag' => $hash ));
 
 		if ($request->server->get('HTTP_IF_NONE_MATCH') && stripslashes($request->server->get('HTTP_IF_NONE_MATCH')) == $hash ) 
 		{
@@ -20,17 +20,17 @@ class ResponseCached extends Response
     		parent::__construct( '', 304, $headers );
 		} 
 		else {
-			$headers['Date'] 			= gmdate("D, d M Y H:i:s", time())." GMT";
-			$headers['Last-Modified'] 	= gmdate("D, d M Y H:i:s", time())." GMT";
-			$headers['content-type'] 	= "text/html;charset=utf-8";
-			$headers['Expires'] 		= gmdate("D, d M Y H:i:s", ( time() + 60*60*24*50 ) )." GMT";
+			$headersDiff['Date'] 			= gmdate("D, d M Y H:i:s", time())." GMT";
+			$headersDiff['Last-Modified'] 	= gmdate("D, d M Y H:i:s", time())." GMT";
+			$headersDiff['content-type'] 	= "text/html;charset=utf-8";
+			$headersDiff['Expires'] 		= gmdate("D, d M Y H:i:s", ( time() + 60*60*24*50 ) )." GMT";
 		    if ( strpos($request->server->get('HTTP_ACCEPT_ENCODING'), 'gzip') !== false ) {
 		        $content = gzencode(trim($content), 9);
-		        $headers['Content-Encoding'] = 'gzip';
+		        $headersDiff['Content-Encoding'] = 'gzip';
 		    }
-			$headers['Content-Length'] 	= strlen($content);
+			$headersDiff['Content-Length'] 	= strlen($content);
 
-    		parent::__construct( $content, 200, $headers );
+    		parent::__construct( $content, 200, array_merge( $headersDiff, $headers ) );
 		}
 	}
 
