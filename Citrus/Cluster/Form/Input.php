@@ -79,6 +79,7 @@ abstract class Input extends Element {
             {
                 case Type::TEXT:
                     $res['className'] = self::TEXTAREA;
+                    break;
             }
     	}
 

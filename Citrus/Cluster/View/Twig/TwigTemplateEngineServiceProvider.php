@@ -5,7 +5,7 @@ use Citrus\Core\System\ServiceProviderInterface;
 
 class TwigTemplateEngineServiceProvider implements ServiceProviderInterface {
     public function register($app) {
-        $app['template_engine'] = function($app) {
+        $app['template_engine'] = function() {
             return new TwigTemplateEngine($app);
         };
     }
