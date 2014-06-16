@@ -2,6 +2,7 @@
 
 namespace Citrus\Cluster\Form;
 use Citrus\Cluster\TArray,
+    Doctrine\DBAL\Types\Type,
     Citrus\Cluster\Orm\ModelDispatcher;
 
 abstract class Input extends Element {
@@ -25,6 +26,7 @@ abstract class Input extends Element {
         self::INPUT_PASSWORD => '\Citrus\Cluster\Form\Elements\InputPassword',
         self::SELECT_ONE => '\Citrus\Cluster\Form\Elements\SelectOne',
         self::SELECT_MANY => '\Citrus\Cluster\Form\Elements\SelectMany',
+        self::TEXTAREA => '\Citrus\Cluster\Form\Elements\Textarea',
     );
 
     static public function addElement( $ident, $args ) 
@@ -48,6 +50,8 @@ abstract class Input extends Element {
         $res['appearence'] = 'default';
         $res['properties']['name'] = $id;
 
+
+
         if (isset($props['appearence']))
             $res['appearence'] = $props['appearence'];
 
@@ -70,6 +74,12 @@ abstract class Input extends Element {
 
             if ( isset($def['enctype']) )
                 $res['className'] = self::INPUT_PASSWORD;
+
+            switch ( $def['type'] ) 
+            {
+                case Type::TEXT:
+                    $res['className'] = self::TEXTAREA;
+            }
     	}
 
         if (isset($props['relation'])) 
