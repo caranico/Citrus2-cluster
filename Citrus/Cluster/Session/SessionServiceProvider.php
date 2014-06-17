@@ -15,8 +15,10 @@ class SessionServiceProvider implements ServiceProviderInterface {
     }
 
     public function boot($app) {
-            session_start();
+        if ( php_sapi_name() !== 'cli' ) {
+            if (( version_compare(phpversion(), '5.4.0', '>=') && session_status() !== PHP_SESSION_ACTIVE ) || (session_id() === '')) session_start();
             $app->retrieveUser();
+        }
     }
 
 }
