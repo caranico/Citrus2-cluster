@@ -59,7 +59,6 @@ class TwigTemplateListener implements EventSubscriberInterface
                 $tr = new TwigTemplateResolver( $this->container );
                 $template = $tr->getTemplate($request);
 
-
                 $template_engine = $this->container->get('template_engine');
 
                 if (is_array($template))

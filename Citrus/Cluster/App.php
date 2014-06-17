@@ -53,6 +53,10 @@ class App extends CitrusApp
         ob_start();
 
         $this->boot();
+
+        $this['session'] = $this->registerProvider(new SessionServiceProvider());
+
+
         /*
             Autodetection selon le hostname
 
@@ -121,7 +125,6 @@ class App extends CitrusApp
     public function registerCoreProviders()
     {
 
-        $this->registerProvider(new SessionServiceProvider());
         $this->registerProvider(new EventServiceProvider());
         $this->registerProvider(new RoutingServiceProvider());
         $this->registerProvider(new ControllerResolverServiceProvider());

@@ -63,7 +63,7 @@ class ObjectController extends Controller {
 	        $ext = substr($url, strrpos($url, '.')+1);
 
 
-        if ( $request->isXmlHttpRequest() ) {
+        if ( $request->isXmlHttpRequest() && (!$ext || $ext != 'html')) {
 	        return $view->jqgridList( $request );
         }
         else if ($ext && $ext != 'html') {

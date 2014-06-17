@@ -22,8 +22,8 @@ class ControllerResolver extends SfControllerResolver
         $ctrl = $request->get('_controller', false);
         $app = array_shift( explode('/', $ctrl, 3) );
         $arrRight = (array) TArray::indexedByUnique($this->app['routes'], 'target');
-        if (!isset($arrRight[$ctrl]['cookieFree']))
-            $this->app->get('session');
+        if (!isset($arrRight[$ctrl]['cookieFree']) && isset($this->app['session']))
+            $this->app['session']->boot($this->app);
         if (!$this->app->isUserLogged() && !isset($arrRight[$ctrl]['safe'])) 
         {
             $request->attributes->set('_controller', $app . '/' . $this->app['config']['default_ctrl'] . '/'. $this->app['config']['layout']['login']);
