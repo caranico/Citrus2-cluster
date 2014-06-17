@@ -59,6 +59,7 @@ class TwigTemplateListener implements EventSubscriberInterface
                 $tr = new TwigTemplateResolver( $this->container );
                 $template = $tr->getTemplate($request);
 
+
                 $template_engine = $this->container->get('template_engine');
 
                 if (is_array($template))
@@ -71,7 +72,12 @@ class TwigTemplateListener implements EventSubscriberInterface
                             $found = true;
                             $template = $tpl;
                         }
-                    }        
+                    }    
+                    if (is_array($template))
+                    {
+                        echo 'Erreur template ' . $tpl.TwigTemplateEngine::$extension.' non trouvé dans les répertoires ' . chr(10) .implode(chr(10), $template);
+                        return;
+                    }    
                 }
                 $template_engine->loadTemplate($template);
                 $content = $template_engine->render($args);
