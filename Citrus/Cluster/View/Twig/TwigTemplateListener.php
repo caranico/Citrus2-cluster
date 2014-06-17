@@ -75,7 +75,7 @@ class TwigTemplateListener implements EventSubscriberInterface
                     }    
                     if (is_array($template))
                     {
-                        echo 'Erreur template ' . $tpl.TwigTemplateEngine::$extension.' non trouvé dans les répertoires ' . chr(10) .implode(chr(10), $template);
+                        echo 'Erreur template  non trouvé parmis: ' . chr(10) .implode(chr(10), $template);
                         return;
                     }    
                 }
