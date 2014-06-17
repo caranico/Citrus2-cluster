@@ -148,7 +148,10 @@ Class View extends inc\Synapse {
 			'onClickButton' 	=> 'function (){ ' .
 				'$.get("/classes/' . $slug . '/edit.html", function (res) { '.
 	        		'$.fn.modal( $.jsonEnv( res ), {} );' .
-				' });' .
+				'}).fail(function (res) { '.
+		        	'var content = $.jsonEnv( res.responseJSON );' .
+		        	'$.fn.modal( content, {}, true );' .
+				'});' .
 			' }'
 		);
 
