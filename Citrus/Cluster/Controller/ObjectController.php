@@ -74,7 +74,7 @@ class ObjectController extends Controller {
 			return array(
 				'object'=> $view->getInformations('name'),
 				'className'=> $this->className,
-				'search'=> rawurlencode($view->getList('searchTemplate')),
+				'search'=> $view->getList('searchTemplate'),
 				'fields'=> $view->getList('search'),
 				'jqgrid'=> $view->jqgrid(),
 			);
