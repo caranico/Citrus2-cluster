@@ -89,7 +89,7 @@ Class View extends inc\Synapse {
 			'viewrecords'	=> true,
 			'sortorder' 	=> $ordersort,
 			'editurl' 		=> '/classes/' . $slug . '/listAction.json',
- 			'scroll' 		=> true,
+ 			'scroll' 		=> $this->getList('scroll') || false,
 			'jsonReader'	=> array(
                   "root"=> 'function (obj) { var e = $.jsonEnv(obj); if (e.rows) return e.rows;}',
 			      "page" => "content.page", 
@@ -119,9 +119,9 @@ Class View extends inc\Synapse {
 
 		$paramsPager = array(
 			array(
-				'edit'		=>false,
-				'add'		=>false,
-				'del'		=>true, 
+				'edit'		=>$this->getList('edit') || false,
+				'add'		=>$this->getList('add') || false,
+				'del'		=>$this->getList('del') || false,
 				'addfunc'	=>'function () { }'
 			),
 			array(),
@@ -227,7 +227,7 @@ Class View extends inc\Synapse {
 		$lstOption = Adapter::getView( $class )->getList();
 		$allField = $sh->getProperties();
 		$listField = array_keys($allField);
-		
+
 		$cond .= ( $sidx && $sord ? ' ORDER BY self.' . $sidx . ' ' . $sord : '' );
 		$lst = call_user_func_array( array($class, 'selectAll'), array(
 			$cond , 
