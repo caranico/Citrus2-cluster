@@ -58,7 +58,7 @@ Class View extends inc\Synapse {
 			), $sh->getProperties($field), $form[ $field ]);
 
 			$editable 	= !($fieldProp['constraint']['readonly'] || $fieldProp['definition']['primary']);
-			$hidden 	= $fieldProp['constraint']['hidden'] || $fieldProp['definition']['primary'];
+			$hidden 	= $fieldProp['constraint']['hidden'] || $fieldProp['definition']['primary'] || !in_array($field,$this->getList('list'));
 
 			$colNames[] = $fieldProp['libelle'];
 			$colModel[] = array(
@@ -80,9 +80,9 @@ Class View extends inc\Synapse {
 			'colNames' 		=> $colNames,
 			'colModel' 		=> $colModel,
 			'rowNum'		=>10,
-			'autowidth'		=> true,
-			'multiselect' 	=> true,
-			'shrinkToFit' 	=> false,
+			'autowidth'		=> $this->getList('autowidth') || true,
+			'multiselect' 	=> $this->getList('multiselect') || true,
+			'shrinkToFit' 	=> $this->getList('shrinkToFit') || false,
 			'rowList' 		=> array(10,20,30),
 			'pager'			=> '#pager_' . $id , 
 			'sortname' 		=> $ordername,
