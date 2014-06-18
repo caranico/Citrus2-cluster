@@ -109,7 +109,7 @@ Class View extends inc\Synapse {
 	        '}',
 	        */
 	        'beforeRequest' 	=> 'function () {' .
-	            '$(\'.ui-jqgrid, .ui-jqgrid-view, .ui-jqgrid-view\').autoheight();' .
+	            '$(\'.ui-jqgrid, .ui-jqgrid-view, .ui-jqgrid-view, .ui-jqgrid-bdiv\').autoheight();' .
 	        '}',
 	        'loadError' => 'function (xhr,status,error) {' .
 	        	'var content = $.jsonEnv( xhr.responseJSON );' .
