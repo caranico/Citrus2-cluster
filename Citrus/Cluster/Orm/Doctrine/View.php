@@ -227,15 +227,18 @@ Class View extends inc\Synapse {
 		$lstOption = Adapter::getView( $class )->getList();
 		$allField = $sh->getProperties();
 		$listField = array_keys($allField);
-		$arrParams = array(
-			$cond . ( $sidx && $sord ? ' ORDER BY self.' . $sidx . ' ' . $sord : '' ) , 
+		
+		$cond .= ( $sidx && $sord ? ' ORDER BY self.' . $sidx . ' ' . $sord : '' );
+		$lst = call_user_func_array( array($class, 'selectAll'), array(
+			$cond , 
 			array(
 				'offset'=> (($page-1) * $rows), 
 				'limit' => $rows 
 			)
-		);
-		$lst = call_user_func_array( array($class, 'selectAll'), $arrParams );
-		$max = call_user_func_array( array($class, 'count'), $arrParams );
+		) );
+		$max = call_user_func_array( array($class, 'count'), array(
+			$cond
+		) );
 
 		$responce = (object) array(
 			'page' 		=> $page,
