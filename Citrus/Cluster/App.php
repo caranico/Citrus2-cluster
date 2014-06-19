@@ -142,15 +142,21 @@ class App extends CitrusApp
         spl_autoload_register( array( 'Citrus\Cluster\App', 'loader' ) );
     }
 
+    public function init() {
+
+    }
+
     public static function start( $debug = false ) {
         $class= get_called_class();
         $app = new $class( Request::createFromGlobals() , $debug );
+        $app->init();
         $app->run();
     }
 
     public static function standAlone( $debug = false ) {
         $class= get_called_class();
         $app = new $class( Request::createFromGlobals() , $debug );
+        $app->init();
         $app->run( true );
         return $app;
     }

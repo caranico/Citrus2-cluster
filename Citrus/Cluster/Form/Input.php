@@ -7,21 +7,21 @@ use Citrus\Cluster\TArray,
 
 abstract class Input extends Element {
 
-	public $params;
+    public $params;
 
-    const INPUT_TEXT 		= 'text';
-    const INPUT_HIDDEN 		= 'hidden';
-    const INPUT_PASSWORD	= 'password';
-    const INPUT_FILE		= 'file';
-    const SELECT_ONE		= 'selectOne';
-    const SELECT_MANY		= 'selectMany';
-    const TEXTAREA			= 'textarea';
-    const WYSIWYG			= 'wysiwyg';
-    const CHECKBOX			= 'checkbox';
-    const BUTTON			= 'button';
+    const INPUT_TEXT        = 'text';
+    const INPUT_HIDDEN      = 'hidden';
+    const INPUT_PASSWORD    = 'password';
+    const INPUT_FILE        = 'file';
+    const SELECT_ONE        = 'selectOne';
+    const SELECT_MANY       = 'selectMany';
+    const TEXTAREA          = 'textarea';
+    const WYSIWYG           = 'wysiwyg';
+    const CHECKBOX          = 'checkbox';
+    const BUTTON            = 'button';
 
     static private $elements = array(
-    	self::INPUT_TEXT => '\Citrus\Cluster\Form\Elements\InputText',
+        self::INPUT_TEXT => '\Citrus\Cluster\Form\Elements\InputText',
         self::INPUT_HIDDEN => '\Citrus\Cluster\Form\Elements\InputHidden',
         self::INPUT_PASSWORD => '\Citrus\Cluster\Form\Elements\InputPassword',
         self::SELECT_ONE => '\Citrus\Cluster\Form\Elements\SelectOne',
@@ -36,10 +36,10 @@ abstract class Input extends Element {
 
     static public function create( Array $params = array() ) 
     {
-    	$ident = $params['className'];
-    	unset($params['className']);
-    	$class = self::$elements[ $ident ];
-    	return new $class( $params );
+        $ident = $params['className'];
+        unset($params['className']);
+        $class = self::$elements[ $ident ];
+        return new $class( $params );
     }
 
     static public function objFromProperties( $id, $props, $value = null )
@@ -47,7 +47,6 @@ abstract class Input extends Element {
         $res = array();
 
         $res['className'] = self::INPUT_TEXT;
-        $res['appearence'] = 'default';
         $res['properties']['name'] = $id;
 
 
@@ -56,8 +55,8 @@ abstract class Input extends Element {
             $res['appearence'] = $props['appearence'];
 
 
-    	if (isset($props['definition'])) 
-    	{
+        if (isset($props['definition'])) 
+        {
             $def = $props['definition'];
             if (isset($def['size']))
                 $res['properties']['maxlength'] = $def['size'];
@@ -81,7 +80,7 @@ abstract class Input extends Element {
                     $res['className'] = self::TEXTAREA;
                     break;
             }
-    	}
+        }
 
         if (isset($props['relation'])) 
         {
@@ -126,7 +125,7 @@ abstract class Input extends Element {
         if (isset( $props['libelle'] ))
             $res['label']['libelle'] = $props['libelle'];
 
-    	return $res;
+        return $res;
     }
 
     public function __toString()

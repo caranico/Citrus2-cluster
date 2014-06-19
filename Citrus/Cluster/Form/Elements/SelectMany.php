@@ -7,9 +7,11 @@ use Citrus\Cluster\Form\Input;
 class SelectMany extends Input {
 
     private $value;
+    static $defaultAppearance = 'default';
 
     public function __construct( Array $params = array() ) {
         $this->params = $params;
+        if (!isset($this->params['appearence'])) $this->params['appearence']= SelectOne::$defaultAppearance;
         if (isset($params['properties']['value']))
         {
             $this->value = $params['properties']['value'];
