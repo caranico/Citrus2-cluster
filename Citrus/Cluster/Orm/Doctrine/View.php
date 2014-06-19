@@ -70,6 +70,18 @@ Class View extends inc\Synapse {
 				'editoptions' 	=> array("size"=>10)
 			);
 		}
+		$action  = $this->getList('action');
+		if ($action) {
+			$colNames[] = '';
+			$colModel[] = array(
+				"name" 			=> 'action',
+				"index" 		=> 'action',
+				"width" 		=> 100,
+				'editable' 		=> false,
+				'hidden' 		=> false,
+				'align'			=>'right'
+			);
+		}
 
 		$id = md5( date("U") * rand( 1, 99 ) );
 		$slug = ObjectController::getSlug($class);
@@ -122,16 +134,13 @@ Class View extends inc\Synapse {
 				'edit'		=>$this->getList('edit') || false,
 				'add'		=>$this->getList('add') || false,
 				'del'		=>$this->getList('del') || false,
-				'addfunc'	=>'function () { }'
+				'addfunc'	=>'function () { }',
+				'search'	=>$this->getList('searchBt') || false
 			),
 			array(),
 			array(),
 			array(),
-			array(
-				'multipleSearch' 	=> true,
-				'multipleGroup' 	=> true,
-				'showQuery' 		=> true
-			)
+			$this->getList('searchOpt') ? $this->getList('searchOpt') : array()
 		);
 
 		$paramsColumn = array(
@@ -188,12 +197,12 @@ Class View extends inc\Synapse {
 						TObject::jsonize( $paramsPager[3] ) . ', ' .
 						TObject::jsonize( $paramsPager[4] ) . 
 					')' . chr(10) .
-					'.navButtonAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsAdd ) . ') ' . chr(10) .
-					'.navSeparatorAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsSepar ) . ') '.
-					'.navButtonAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsExportCSV ) . ') ' . chr(10) .
-					'.navButtonAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsExportXLS ) . ') ' . chr(10) .
-					'.navSeparatorAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsSepar ) . ') '.
-					'.navButtonAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsColumn ) . '); ' . chr(10) .
+					($this->getList('addBt') ?'.navButtonAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsAdd ) . ') ' . chr(10) :'').
+					($this->getList('exportCSV') || $this->getList('exportXLS') ? '.navSeparatorAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsSepar ) . ') ' . chr(10) : '') .
+					($this->getList('exportCSV') ? '.navButtonAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsExportCSV ) . ') ' . chr(10) : '') .
+					($this->getList('exportXLS') ? '.navButtonAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsExportXLS ) . ') ' . chr(10) : '') .
+					($this->getList('exportCSV') || $this->getList('exportXLS') ?'.navSeparatorAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsSepar ) . ') '. chr(10) : '') .
+					($this->getList('columnChooser') ? '.navButtonAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsColumn ) . '); ' . chr(10) : '') .
 				'});' . chr(10) .
 			'</script>';
 	}
@@ -217,8 +226,11 @@ Class View extends inc\Synapse {
 			if (!$rows) $rows =10;
 			$list = $this->getList();
 			$res = array();
-			foreach ($list['search'] as $field)
-				$res[]=sprintf("self.%1s LIKE '%%%2s%%'", $field, $term);
+			foreach ($list['search'] as $field){
+				$res[]=sprintf("self.%s LIKE '%s%%'", $field, $term);
+				$res[]=sprintf("self.%s LIKE '%%%s%%'", $field, $term);
+				$res[]=sprintf("self.%s LIKE '%%%s'", $field, $term);
+			}
 			$cond = 'WHERE ' . implode(' OR ', $res );
 		}
 
@@ -247,6 +259,8 @@ Class View extends inc\Synapse {
 			'rows' 		=> array()
 		);
 
+		$action  = $this->getList('action');
+
 		foreach ( $lst as $object ) {
 			foreach ( $listField as $col ) {
 				$value = $object->$col;
@@ -263,6 +277,8 @@ Class View extends inc\Synapse {
 					else $cell[ $col ] = $value;
 				}
 			}
+			if ($action) 
+				$cell['action']='<form class="jform action" action="">' . $action . '</form>';
 			$responce->rows[] = array('cell' => $cell);
 		}
 		return $responce;
@@ -282,6 +298,17 @@ Class View extends inc\Synapse {
 
 		$cond = '';
 		if ($filters) $cond = 'WHERE ' .$this->_filter( json_decode( $filters ) );
+		else if ( $term ) {
+			// gestion de la recherche autocomplete
+			$list = $this->getList();
+			$res = array();
+			foreach ($list['search'] as $field){
+				$res[]=sprintf("self.%s LIKE '%s%%'", $field, $term);
+				$res[]=sprintf("self.%s LIKE '%%%s%%'", $field, $term);
+				$res[]=sprintf("self.%s LIKE '%%%s'", $field, $term);
+			}
+			$cond = 'WHERE ' . implode(' OR ', $res );
+		}
 
 		$arrParams = array(
 			$cond . ( $sidx && $sord ? ' ORDER BY self.' . $sidx . ' ' . $sord : '' )
@@ -324,15 +351,15 @@ Class View extends inc\Synapse {
 		foreach ( $arr->rules as $rule ) {
 			$model = false;
 			switch ($rule->op) {
-				case 'bw' : $model = "self.%1s LIKE '%2s%%'";	break;
-				case 'eq' : $model = "self.%1s = '%2s'";		break;
-				case 'ne' : $model = "self.%1s <> '%2s'";		break;
-				case 'lt' : $model = "self.%1s < '%2s'";		break;
-				case 'le' : $model = "self.%1s <= '%2s'";		break;
-				case 'gt' : $model = "self.%1s > '%2s'";		break;
-				case 'ge' : $model = "self.%1s >= '%2s'";		break;
-				case 'ew' : $model = "self.%1s LIKE '%%%2s'";	break;
-				case 'cn' : $model = "self.%1s LIKE '%%%2s%%'";	break;
+				case 'bw' : $model = "self.%s LIKE '%s%%'";	break;
+				case 'eq' : $model = "self.%s = '%s'";		break;
+				case 'ne' : $model = "self.%s <> '%s'";		break;
+				case 'lt' : $model = "self.%s < '%s'";		break;
+				case 'le' : $model = "self.%s <= '%s'";		break;
+				case 'gt' : $model = "self.%s > '%s'";		break;
+				case 'ge' : $model = "self.%s >= '%s'";		break;
+				case 'ew' : $model = "self.%s LIKE '%%%s'";	break;
+				case 'cn' : $model = "self.%s LIKE '%%%s%%'";	break;
 			}
 			if ($model) $resFilter[] = sprintf( $model, $rule->field, $rule->data );
 		}
