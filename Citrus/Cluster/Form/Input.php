@@ -12,6 +12,7 @@ abstract class Input extends Element {
     const INPUT_TEXT        = 'text';
     const INPUT_HIDDEN      = 'hidden';
     const INPUT_PASSWORD    = 'password';
+    const INPUT_BOOL        = 'bool';
     const INPUT_FILE        = 'file';
     const SELECT_ONE        = 'selectOne';
     const SELECT_MANY       = 'selectMany';
@@ -27,6 +28,7 @@ abstract class Input extends Element {
         self::SELECT_ONE => '\Citrus\Cluster\Form\Elements\SelectOne',
         self::SELECT_MANY => '\Citrus\Cluster\Form\Elements\SelectMany',
         self::TEXTAREA => '\Citrus\Cluster\Form\Elements\Textarea',
+        self::INPUT_BOOL => '\Citrus\Cluster\Form\Elements\InputBool',
     );
 
     static public function addElement( $ident, $args ) 
@@ -78,6 +80,9 @@ abstract class Input extends Element {
             {
                 case Type::TEXT:
                     $res['className'] = self::TEXTAREA;
+                    break;
+                case Type::BOOLEAN:
+                    $res['className'] = self::INPUT_BOOL;
                     break;
             }
         }
