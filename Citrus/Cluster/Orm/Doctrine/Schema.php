@@ -107,7 +107,7 @@ Class Schema extends inc\Synapse {
                     $def = $properties[ $propName ]['definition'];
                     switch ( $def['type'] ){
                         case Schema::BOOLEAN:       
-                            return is_bool( $propValue ) || in_array( $propValue, '0', '1', 0, 1 );     
+                            return is_bool( $propValue ) || in_array( $propValue, array('0', '1', 0, 1) );     
                         break;
                         case Schema::TARRAY:
                         case Schema::JSON_ARRAY:
