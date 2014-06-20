@@ -52,9 +52,10 @@ class Form extends Element {
         }
     }
 
-    public function getElement( $name )
+    public function getElement( $name = false )
     {
-    	return $this->elements[ $name ];
+        if (!$name) return $this->elements;
+        return $this->elements[ $name ];
     }
 
     public static function fromObject( $object, $action ) {

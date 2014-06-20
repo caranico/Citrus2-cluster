@@ -52,11 +52,6 @@ abstract class Input extends Element {
         $res['properties']['name'] = $id;
 
 
-
-        if (isset($props['appearence']))
-            $res['appearence'] = $props['appearence'];
-
-
         if (isset($props['definition'])) 
         {
             $def = $props['definition'];
@@ -125,6 +120,12 @@ abstract class Input extends Element {
             }
         }
 
+        if (isset($props['appearence']))
+            $res['appearence'] = $props['appearence'];
+        else if ( property_exists(self::$elements[ $res['className'] ], 'defaultAppearance' )) {
+            $class = self::$elements[ $res['className'] ];
+            $res['appearence'] = $class::$defaultAppearance;
+        }
 
 
         if (isset( $props['libelle'] ))

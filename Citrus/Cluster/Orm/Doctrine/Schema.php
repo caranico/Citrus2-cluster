@@ -31,6 +31,8 @@ use \Doctrine\DBAL\Types\Type,
 
 Class Schema extends inc\Synapse {
 
+    static public $objCtrlClass = '\Citrus\Cluster\Controller\ObjectController';
+
     const ONE_TO_ONE 	= ClassMetadataInfo::ONE_TO_ONE;
     const MANY_TO_ONE 	= ClassMetadataInfo::MANY_TO_ONE;
     const ONE_TO_MANY 	= ClassMetadataInfo::ONE_TO_MANY;
@@ -364,7 +366,7 @@ Class Schema extends inc\Synapse {
 
         if ($sh) {
             if ($isController) {
-                $extend = '\Citrus\Cluster\Controller\ObjectController';
+                $extend = Schema::$objCtrlClass;
                 $namespace = substr($class, 0, strrpos($class,'\\'));
                 $className = substr($class, strlen($namespace) + 1 );
             } else {
