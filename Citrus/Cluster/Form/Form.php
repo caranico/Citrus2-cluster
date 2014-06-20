@@ -41,6 +41,21 @@ class Form extends Element {
         $this->jsMethod = $method;
     }
 
+    public function getTransfert( $name )
+    {
+        return array(
+            $name,
+            $this->elements[ $name ],
+            $this->jsSchema[ $name ]
+        );
+    }
+
+    public function addTransfert( Array $params )
+    {
+        $this->elements[ $params[0] ] = $params[1];
+        $this->jsSchema[ $params[0] ] = $params[2];
+    }
+
     public function render()
     {
     	foreach ( $this->properties as $id => $props ) {
