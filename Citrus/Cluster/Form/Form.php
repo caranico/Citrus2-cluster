@@ -81,7 +81,7 @@ class Form extends Element {
 
     public function getHead( $callback = array(), $class=array() ) {
         $this->mergeAttribute('class', array_merge($class, array('jform')));
-        return $this->generateValidationScript($callback) . '<span id="' . $this->marker . '"></span><form ' . $this->renderAttributes().'>';       
+        return $this->generateValidationScript($callback) . '<span class="jformMarker" id="' . $this->marker . '"></span><form ' . $this->renderAttributes().'>';       
     }
 
     public function getFoot( $param = array() ) {
