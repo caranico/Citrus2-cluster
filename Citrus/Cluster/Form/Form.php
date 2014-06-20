@@ -98,8 +98,8 @@ class Form extends Element {
         <div class="form_ctrl">'.
             $res .
             ($p['obligatoire'] ? '<span class="validInfo">* ' . $p['obligatoire'] . '</span>':'') .
-            ($p['reset'] ? '<button type="reset"><span>' . $p['reset'] . '</span></button>':'') .
-            ($p['submit'] ? '<button type="submit"><span>' . $p['submit'] . '</span></button>':'') .
+            ($p['reset'] ? '<button type="reset" class="red"><span>' . $p['reset'] . '</span></button>':'') .
+            ($p['submit'] ? '<button type="submit" class="green"><span>' . $p['submit'] . '</span></button>':'') .
             ($p['button'] ? '<button type="button"><span>' . $p['button'] . '</span></button>':'') .
         '</div></form>'.chr(10);
     }
