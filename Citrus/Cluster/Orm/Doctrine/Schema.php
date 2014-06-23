@@ -95,7 +95,7 @@ Class Schema extends inc\Synapse {
                             if (is_object( $propValue ) && is_a( $propValue , '\Muffin\Citrus\Orm\ModelInterface'))
                                 return '\\' . $propValue->getClass() == $rel['foreign']['class'];
                             else if (isset($rel['foreign']['class']))
-                                return is_numeric( $propValue );
+                                return is_numeric( $propValue ) || empty( $propValue );
                             else return true;
                         break;
                         case self::ONE_TO_MANY :
@@ -163,8 +163,13 @@ Class Schema extends inc\Synapse {
                     {
                         $obj->setData($propName, call_user_func(array($rel['foreign']['class'], 'selectOne'), (int)$propValue));
                     }
-                    else 
-                        $obj->setData($propName, $propValue);
+                    else {
+                        if (empty( $propValue))
+                            $this->_bilaterralAutoRemove( $obj, $propName, $obj->$propName );
+                        else
+                            $obj->setData($propName, $propValue);
+
+                    }
                 break;
                 case self::ONE_TO_MANY :
 
@@ -330,6 +335,19 @@ Class Schema extends inc\Synapse {
                 }
             }
         }
+    }
+
+    private function _bilaterralAutoRemove( $obj, $propName, $delValue ) {
+        $meta = $obj->$propName->getMetadata();
+        foreach ( $meta->associationMappings as $ref => $prop ){
+            if ( $prop['type'] == Schema::ONE_TO_ONE || $prop['type'] == Schema::MANY_TO_ONE && $prop['inversedBy'] == $propName) {
+                // todo
+            }
+            else if ( $prop['type'] == Schema::ONE_TO_MANY || $prop['type'] == Schema::MANY_TO_MANY && $prop['mappedBy'] == $propName) {
+                $obj->$propName->$ref->removeElement($delValue);
+            }
+        }
+        unset($obj->$propName);
     }
 
     /**

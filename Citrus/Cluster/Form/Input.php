@@ -71,6 +71,10 @@ abstract class Input extends Element {
             if ( isset($def['enctype']) )
                 $res['className'] = self::INPUT_PASSWORD;
 
+            if (isset($def['notnull']))
+                $res['notnull'] = $def['notnull'];
+
+
             switch ( $def['type'] ) 
             {
                 case Type::TEXT:
@@ -79,7 +83,17 @@ abstract class Input extends Element {
                 case Type::BOOLEAN:
                     $res['className'] = self::INPUT_BOOL;
                     break;
+                case Type::STRING:
+                    if (isset($def['options'])) {
+                        $res['className'] = self::SELECT_ONE;
+                        $res['options'] = $def['options'];
+                        if (isset( $res['properties']['value'] ))
+                            $res['properties']['value'] = array_search($res['properties']['value'], $res['options']);
+                    }
+                    break;
             }
+
+
         }
 
         if (isset($props['relation'])) 

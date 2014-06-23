@@ -46,6 +46,9 @@ class SelectOne extends Input {
         if (!isset( $this->params['options'])) return;
         $reel = is_a( $this->value, '\Citrus\Cluster\Orm\ModelInterface') ? $this->value->id : $this->value;
         $res = array();
+
+        if (!isset($this->params['notnull']))
+            $res [] = '<option value=""' . (empty($reel) ? ' selected="selected"':''). '></option>';
         foreach ($this->params['options'] as $id=>$el)
             $res [] = '<option value="' . $id . '"' . ($id == $reel ? ' selected="selected"':''). '>' . $el . '</option>';
         return implode('', $res);
@@ -56,6 +59,7 @@ class SelectOne extends Input {
         $reel = is_a( $this->value, '\Citrus\Cluster\Orm\ModelInterface') ? $this->value->id : $this->value;
         $res = array();
         $first = true;
+
         foreach ($this->params['options'] as $id=>$el)
         {
             $res [] = '<label>' .
