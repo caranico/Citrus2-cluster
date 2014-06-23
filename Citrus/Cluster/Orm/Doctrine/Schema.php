@@ -26,34 +26,34 @@
 namespace Citrus\Cluster\Orm\Doctrine;
 
 use \Doctrine\DBAL\Types\Type,
-	\Doctrine\ORM\Mapping\ClassMetadataInfo,
-	\Doctrine\Common\Collections\ArrayCollection;
+    \Doctrine\ORM\Mapping\ClassMetadataInfo,
+    \Doctrine\Common\Collections\ArrayCollection;
 
 Class Schema extends inc\Synapse {
 
     static public $objCtrlClass = '\Citrus\Cluster\Controller\ObjectController';
 
-    const ONE_TO_ONE 	= ClassMetadataInfo::ONE_TO_ONE;
-    const MANY_TO_ONE 	= ClassMetadataInfo::MANY_TO_ONE;
-    const ONE_TO_MANY 	= ClassMetadataInfo::ONE_TO_MANY;
-    const MANY_TO_MANY 	= ClassMetadataInfo::MANY_TO_MANY;
+    const ONE_TO_ONE    = ClassMetadataInfo::ONE_TO_ONE;
+    const MANY_TO_ONE   = ClassMetadataInfo::MANY_TO_ONE;
+    const ONE_TO_MANY   = ClassMetadataInfo::ONE_TO_MANY;
+    const MANY_TO_MANY  = ClassMetadataInfo::MANY_TO_MANY;
 
-    const SIMPLE_ARRAY 	= Type::SIMPLE_ARRAY;
-    const BIGINT 		= Type::BIGINT;
-    const BOOLEAN 		= Type::BOOLEAN;
-    const DATETIME 		= Type::DATETIME;
-    const DATETIMETZ 	= Type::DATETIMETZ;
-    const DATE 			= Type::DATE;
-    const TIME 			= Type::TIME;
-    const DECIMAL 		= Type::DECIMAL;
-    const INTEGER 		= Type::INTEGER;
-    const OBJECT 		= Type::OBJECT;
-    const SMALLINT 		= Type::SMALLINT;
-    const STRING 		= Type::STRING;
-    const TEXT 			= Type::TEXT;
-    const BLOB 			= Type::BLOB;
-    const FLOAT 		= Type::FLOAT;
-    const GUID 			= Type::GUID;
+    const SIMPLE_ARRAY  = Type::SIMPLE_ARRAY;
+    const BIGINT        = Type::BIGINT;
+    const BOOLEAN       = Type::BOOLEAN;
+    const DATETIME      = Type::DATETIME;
+    const DATETIMETZ    = Type::DATETIMETZ;
+    const DATE          = Type::DATE;
+    const TIME          = Type::TIME;
+    const DECIMAL       = Type::DECIMAL;
+    const INTEGER       = Type::INTEGER;
+    const OBJECT        = Type::OBJECT;
+    const SMALLINT      = Type::SMALLINT;
+    const STRING        = Type::STRING;
+    const TEXT          = Type::TEXT;
+    const BLOB          = Type::BLOB;
+    const FLOAT         = Type::FLOAT;
+    const GUID          = Type::GUID;
     /* override */
     const TARRAY        = 'muffin_array';
     const JSON_ARRAY    = 'muffin_json_array';
@@ -83,9 +83,9 @@ Class Schema extends inc\Synapse {
      *
      * @return bool
      */
-	public function control( $propName, $propValue = EMPTYDATA ) {
+    public function control( $propName, $propValue = EMPTYDATA ) {
         $properties = $this->getProperties();
-		if (in_array($propName, array_keys($properties))) {
+        if (in_array($propName, array_keys($properties))) {
             if ( $propValue != EMPTYDATA ) {
                 if (isset($properties[ $propName ]['relation'])) {
                     $rel = $properties[ $propName ]['relation'];
@@ -99,6 +99,7 @@ Class Schema extends inc\Synapse {
                             else return true;
                         break;
                         case self::ONE_TO_MANY :
+                        case self::MANY_TO_MANY :
                             return is_string(  $propValue  );
                         break;
                     }
@@ -138,9 +139,9 @@ Class Schema extends inc\Synapse {
                 }
             } 
             else return true;
-		}
-		else return false;
-	}
+        }
+        else return false;
+    }
 
     /**
      * Update a value for a property
@@ -176,6 +177,20 @@ Class Schema extends inc\Synapse {
                                 $el->setData($rel['foreign']['property'], null);
                         }
 
+
+                    foreach ( $lst as $el )
+                        if (!$obj->getData($propName)->contains( $el ))
+                            $obj->getData($propName)->add( $el );
+                break;
+                case self::MANY_TO_MANY :
+
+                    $lst = empty($propValue) ? array() : call_user_func(array($rel['foreign']['class'], 'selectAll'), 'WHERE self.id IN (' . $propValue . ')');
+                    foreach( $obj->getData($propName) as $el )
+                        if (!in_array( $el, $lst)) {
+                            $obj->getData($propName)->removeElement( $el );
+                            if (isset($rel['foreign']['property'])) 
+                                $el->setData($rel['foreign']['property'], null);
+                        }
 
                     foreach ( $lst as $el )
                         if (!$obj->getData($propName)->contains( $el ))

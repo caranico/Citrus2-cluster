@@ -250,7 +250,7 @@ class SchemaDriver extends Mapping\Driver\FileDriver
                         $mapping['fetch'] = isset($relation['fetch']) ? $relation['fetch'] : Schema::FETCH_LAZY;
                         $metadata->mapOneToMany($mapping);
                     break;
-                    case MANY_TO_MANY :
+                    case Schema::MANY_TO_MANY :
                         /**
                         Relation MANY_TO_MANY
 
@@ -304,10 +304,23 @@ class SchemaDriver extends Mapping\Driver\FileDriver
 
                             $joinColumns = array();
 
-                            if (isset($relation['foreign']['joinColumns']))
-                                $mapping['joinColumns'] = $relation['foreign']['joinColumns'];
-                            if (isset($relation['foreign']['inverseJoinColumns']))
-                                $mapping['inverseJoinColumns'] = $relation['foreign']['inverseJoinColumns'];
+                            if (isset($relation['foreign']['joinColumn']))
+                                $joinColumns[] = $relation['foreign']['joinColumn'];
+                            else if (isset($relation['foreign']['joinColumns']))
+                                $joinColumns = $relation['foreign']['joinColumns'];
+
+                            $joinTable['joinColumns'] = $joinColumns;
+
+                            $inverseJoinColumns = array();
+
+                            if (isset($relation['foreign']['inverseJoinColumn']))
+                                $inverseJoinColumns[] = $relation['foreign']['inverseJoinColumn'];
+                            else if (isset($relation['foreign']['inverseJoinColumns']))
+                                $inverseJoinColumns = $relation['foreign']['inverseJoinColumns'];
+
+                            $joinTable['inverseJoinColumns'] = $inverseJoinColumns;
+                            
+                            $mapping['joinTable'] = $joinTable;
 
                         }
 
@@ -317,6 +330,7 @@ class SchemaDriver extends Mapping\Driver\FileDriver
                             $mapping['indexBy'] = $relation['indexBy'];
                         if (isset($relation['cascade'])) 
                             $mapping['cascade'] = $relation['cascade'];
+
                         $metadata->mapManyToMany($mapping);
                     break;
                 }

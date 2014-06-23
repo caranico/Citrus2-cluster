@@ -38,7 +38,7 @@ class SelectMany extends Input {
                         $this->renderOptions().
                         '</select>' .
                         '<span class="select"></span>' .
-                        '<div class="manyInfo"><ins>'. $this->params['label']['libelle'] .' associés :</ins><br/><i style="font-size:8pt">(cliquez sur son nom pour l\'enlever)</i></div>' .
+                        '<div class="manyInfo"><ins>'. $this->params['label']['libelle'] .' associés :</ins> <i style="font-size:8pt">(cliquez sur son nom pour l\'enlever)</i></div>' .
                         '<div class="manyListe full">' . $this->renderValues(). '</div>' .
                     '</label><input type="hidden" name="' . $this->params['properties']['name'] . '" value="' . $this->renderValues(false). '" />';
             break;
