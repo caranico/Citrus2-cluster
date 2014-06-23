@@ -104,6 +104,7 @@ abstract class Input extends Element {
 
                 break;
                 case $schObj::ONE_TO_MANY :
+                case $schObj::MANY_TO_MANY :
                     $res['className'] = self::SELECT_MANY;
                     if (isset($rel['foreign']))
                     {
@@ -114,8 +115,6 @@ abstract class Input extends Element {
                     if (!is_null($value))
                         $res['properties']['value'] = $value;
 
-                break;
-                case $schObj::MANY_TO_MANY :
                 break;
             }
         }
