@@ -35,6 +35,7 @@ class ObjectController extends Controller {
 		$form->setMethod( $request->isXmlHttpRequest() ? 'post' : 'inline');
 		return array( 
 			'resource' => $this->resource->toArray(),
+			'object' => $this->resource->getView()->getInformations('name'),
 			'form' => $form
 		);
 	}
