@@ -22,14 +22,15 @@ class InputBool extends Input {
         switch ($this->params['appearence'])
         {
             case 'switch' :
-                return '<label>' .
+                return '<label ' . $this->renderLabelAttributes().'>' .
                         '<span class="label">' . $this->params['label']['libelle'] . '</span>' .
                         '<span class="switch ' . ($this->params['properties']['value'] ? 'oui' : 'non') . '"><span></span></span>' .
                     '</label>' .
                     '<input type="hidden" name="' . $this->params['properties']['name'] . '" value="' . ($this->params['properties']['value'] ? '1' : '0') . '" />';
             break;
             default:
-                return '<label class="bool">' .
+                $this->params['label']['attributes']['class'][] = 'bool';
+                return '<label ' . $this->renderLabelAttributes().'>' .
                         '<span class="label">' . $this->params['label']['libelle'] . '</span>' .
                         parent::__toString() .
                         '<span class="checkbox"></span>' .

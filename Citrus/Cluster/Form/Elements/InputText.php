@@ -13,10 +13,10 @@ class InputText extends Input {
 
     public function __toString()
     {
-        return '<label>' .
-        		'<span class="label">' . $this->params['label']['libelle'] . '</span>' .
-        		'<input ' . $this->renderAttributes().' />' .
-			'</label>';
+        return '<label ' . $this->renderLabelAttributes().'>' .
+                '<span class="label">' . $this->params['label']['libelle'] . '</span>' .
+                '<input ' . $this->renderAttributes().' />' .
+            '</label>';
     }
 
 }

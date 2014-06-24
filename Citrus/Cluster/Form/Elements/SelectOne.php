@@ -31,7 +31,7 @@ class SelectOne extends Input {
                     '</span>';
             break;
             default:
-                return '<label>' .
+                return '<label ' . $this->renderLabelAttributes().'>' .
                         '<span class="label">' . $this->params['label']['libelle'] . '</span>' .
                         '<select ' . $this->renderAttributes().'>' .
                         $this->renderOptions().

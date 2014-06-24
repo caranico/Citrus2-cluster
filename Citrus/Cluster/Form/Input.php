@@ -44,6 +44,15 @@ abstract class Input extends Element {
         return new $class( $params );
     }
 
+    public function setAttribute( $name, $val )
+    {
+        parent::setAttribute( $name, $val);
+        if ($name == 'disabled')
+        {
+            $this->params['label']['attributes']['class'][] = 'disabled';
+        }
+    }
+
     static public function objFromProperties( $id, $props, $value = null )
     {
         $res = array();
@@ -145,6 +154,14 @@ abstract class Input extends Element {
             $res['label']['libelle'] = $props['libelle'];
 
         return $res;
+    }
+
+    public function renderLabelAttributes() {
+        if (!isset($this->params['label']['attributes'])) return '';
+        $arrRender = array();
+        foreach ($this->params['label']['attributes'] as $key => $val)
+            $arrRender[] = $key . '="' . ( is_array( $val ) ? implode(';', $val) : $val ) . '"';
+        return implode(' ', $arrRender);
     }
 
     public function __toString()

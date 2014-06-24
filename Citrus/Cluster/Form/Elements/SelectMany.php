@@ -32,7 +32,7 @@ class SelectMany extends Input {
                     '</span><input type="hidden" name="' . $this->params['properties']['name'] . '" value="' . $this->renderValues(false). '" />';
             break;
             default:
-                return '<label>' .
+                return '<label ' . $this->renderLabelAttributes().'>' .
                         '<span class="label">' . $this->params['label']['libelle'] . '</span>' .
                         '<select ' . $this->renderAttributes().'>' .
                         $this->renderOptions().

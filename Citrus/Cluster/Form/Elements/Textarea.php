@@ -20,10 +20,10 @@ class Textarea extends Input {
 
     public function __toString()
     {
-        return '<label>' .
-        		'<span class="label">' . $this->params['label']['libelle'] . '</span>' .
-        		'<textarea ' . $this->renderAttributes().'>' . $this->value . '</textarea>' .
-			'</label>';
+        return '<label ' . $this->renderLabelAttributes().'>' .
+                '<span class="label">' . $this->params['label']['libelle'] . '</span>' .
+                '<textarea ' . $this->renderAttributes().'>' . $this->value . '</textarea>' .
+            '</label>';
     }
 
 }
