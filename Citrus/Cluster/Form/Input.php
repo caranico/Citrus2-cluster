@@ -59,7 +59,8 @@ abstract class Input extends Element {
 
         $res['className'] = self::INPUT_TEXT;
         $res['properties']['name'] = $id;
-
+        if (isset($props['constraint']))
+            $res['constraint']=array_map('addslashes', $props['constraint']);
 
         if (isset($props['definition'])) 
         {
