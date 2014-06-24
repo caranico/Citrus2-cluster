@@ -123,6 +123,9 @@ abstract class Input extends Element {
                         $sch = $class::getSchema();
                         $res['objClass'] = \Citrus\Cluster\Controller\ObjectController::getSlug( substr($class, strpos($class, '\\', 1) ));
                         $res['options'] = (array) TArray::indexedByUnique( $class::selectAll(), array_shift($sch::getPrimaryKeys()) );
+
+                        if (isset($props['autocomplete'])) 
+                            $res['autocomplete'] = $props['autocomplete'];
                     }
                     if (!is_null($value))
                         $res['properties']['value'] = $value;
