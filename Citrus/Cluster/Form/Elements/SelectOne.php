@@ -34,7 +34,7 @@ class SelectOne extends Input {
                 $reel = is_a( $this->value, '\Citrus\Cluster\Orm\ModelInterface') ? $this->value->id : $this->value;
                 return '<label ' . $this->renderLabelAttributes().'>' .
                         '<span class="label">' . $this->params['label']['libelle'] . '</span>' .
-                        '<input type="text" name="' . $this->params['properties']['name'] . '-Ctrl" value="' . $this->value. '" />' .
+                        '<input type="text" name="' . $this->params['properties']['name'] . '-Ctrl" value="' . $this->value. '" /><span class="autocompleteEdit">&times;</span>' .
                     '</label><input type="hidden" name="' . $this->params['properties']['name'] . '" value="' . $reel. '" />';
             break;
             default:

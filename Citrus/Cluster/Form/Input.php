@@ -121,6 +121,7 @@ abstract class Input extends Element {
                     {
                         $class = $rel['foreign']['class'];
                         $sch = $class::getSchema();
+                        $res['objClass'] = \Citrus\Cluster\Controller\ObjectController::getSlug( substr($class, strpos($class, '\\', 1) ));
                         $res['options'] = (array) TArray::indexedByUnique( $class::selectAll(), array_shift($sch::getPrimaryKeys()) );
                     }
                     if (!is_null($value))
@@ -134,6 +135,7 @@ abstract class Input extends Element {
                     {
                         $class = $rel['foreign']['class'];
                         $sch = $class::getSchema();
+                        $res['objClass'] = \Citrus\Cluster\Controller\ObjectController::getSlug( substr($class, strpos($class, '\\', 1) ));
                         $res['options'] = (array) TArray::indexedByUnique( $class::selectAll(), array_shift($sch::getPrimaryKeys()) );
                     }
                     if (!is_null($value))

@@ -6,18 +6,18 @@ use Citrus\Cluster\Controller\ObjectController,
     Citrus\Cluster\TObject;
 
 class Form extends Element {
-	protected $properties;
-	protected $elements;
-	protected $values;
+    protected $properties;
+    protected $elements;
+    protected $values;
     protected $marker;
     protected $jsSchema;
     protected $jsMethod = 'post';
 
     public function __construct( Array $params = array())
     {
-    	$this->properties = $params['properties'];
+        $this->properties = $params['properties'];
         $this->marker = md5(uniqid(rand(), true));
-    	parent::__construct( $params['attributes'] );
+        parent::__construct( $params['attributes'] );
     }
 
     public function __toString()
@@ -29,11 +29,11 @@ class Form extends Element {
 
     public function attachObject( $mixed, $render = false ) 
     {        
-    	if (is_array( $mixed ))
-    		$this->values = (object) $mixed;
-    	else if (is_object( $mixed ) && is_a( $mixed, '\Citrus\Cluster\Orm\ModelInterface'))
-    		$this->values = $mixed;
-    	if ($render) $this->render();
+        if (is_array( $mixed ))
+            $this->values = (object) $mixed;
+        else if (is_object( $mixed ) && is_a( $mixed, '\Citrus\Cluster\Orm\ModelInterface'))
+            $this->values = $mixed;
+        if ($render) $this->render();
     }
 
     public function setMethod( $method )
@@ -58,11 +58,13 @@ class Form extends Element {
 
     public function render()
     {
-    	foreach ( $this->properties as $id => $props ) {
+        foreach ( $this->properties as $id => $props ) {
             if (!isset($props['definition']['primary']) && (!isset($props['constraint']['display']) || $props['constraint']['display'])) 
             {
-                $this->jsSchema[ $id ] = Input::objFromProperties($id, $props, $this->values->$id);
-                $this->elements[ $id ] = Input::create( $this->jsSchema[ $id ] );
+                $constructor = Input::objFromProperties($id, $props, $this->values->$id);
+                $this->elements[ $id ] = Input::create( $constructor );
+                unset($constructor['options']);
+                $this->jsSchema[ $id ] = $constructor;
             }
         }
     }
@@ -75,23 +77,23 @@ class Form extends Element {
 
     public static function fromObject( $object, $action ) {
 
-		$view = call_user_func(array($object, 'getView'));
-		$sch = call_user_func(array($object, 'getSchema'));
-		$propView = $view->getProperties();
-		$propSchema = $sch->getProperties();
-		foreach ($propView as $id => &$props)
-			if (!is_array($props)) $props = array('libelle' => $props);
+        $view = call_user_func(array($object, 'getView'));
+        $sch = call_user_func(array($object, 'getSchema'));
+        $propView = $view->getProperties();
+        $propSchema = $sch->getProperties();
+        foreach ($propView as $id => &$props)
+            if (!is_array($props)) $props = array('libelle' => $props);
 
-		$f = new self(array(
-			"attributes" => array(
-				"method" => "POST",
-				"action" => "/classes/" . ObjectController::getSlug( get_class($object) ) . ( $object->id ? '/' . $object->id : '') .  "/" . $action . ".json"
-			),
-			"properties" => array_merge_recursive( $propView, $propSchema)
-		));
+        $f = new self(array(
+            "attributes" => array(
+                "method" => "POST",
+                "action" => "/classes/" . ObjectController::getSlug( get_class($object) ) . ( $object->id ? '/' . $object->id : '') .  "/" . $action . ".json"
+            ),
+            "properties" => array_merge_recursive( $propView, $propSchema)
+        ));
 
-		$f->attachObject( $object, true );
-		return $f;
+        $f->attachObject( $object, true );
+        return $f;
     }
 
     public function getHead( $callback = array(), $class=array() ) {
