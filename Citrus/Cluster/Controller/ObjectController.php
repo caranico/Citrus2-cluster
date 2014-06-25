@@ -5,6 +5,7 @@ namespace Citrus\Cluster\Controller;
 use Symfony\Component\HttpFoundation\Request as SfRequest,
 	Citrus\Cluster\Response\ResponseCachedJson,
 	Citrus\Cluster\Form,
+	Citrus\Cluster\Message,
 	Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ObjectController extends Controller {
@@ -30,7 +31,7 @@ class ObjectController extends Controller {
 				Message::addInfo($this->resource->getView()->getInformations('name'), 'Modification de ' . $this->resource );
 				$this->resource->save();
 			}
-			
+
 			if (!$request->isXmlHttpRequest())
 				return new RedirectResponse("/classes/" . $this->getSlug( $this->className ) . "/" . $this->resource->id . "/edit");
 		}
