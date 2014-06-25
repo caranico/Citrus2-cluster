@@ -25,8 +25,12 @@ class ObjectController extends Controller {
 			$this->resource = new $this->className();
 
 		if ($request->getMethod() == 'POST') {
-			$this->resource->hydrate( $request->request->all() );
-			$this->resource->save();
+			if ($this->resource->hydrate( $request->request->all() ))
+			{
+				Message::addInfo($this->resource->getView()->getInformations('name'), 'Modification de ' . $this->resource );
+				$this->resource->save();
+			}
+			
 			if (!$request->isXmlHttpRequest())
 				return new RedirectResponse("/classes/" . $this->getSlug( $this->className ) . "/" . $this->resource->id . "/edit");
 		}

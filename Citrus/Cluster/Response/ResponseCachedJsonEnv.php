@@ -1,7 +1,8 @@
 <?php
 namespace Citrus\Cluster\Response;
 
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request,
+	Citrus\Cluster\Message;
 
 class ResponseCachedJsonEnv extends ResponseCachedJson
 {
@@ -9,20 +10,7 @@ class ResponseCachedJsonEnv extends ResponseCachedJson
 	{
 		parent::__construct( $request, array(
 			'content' => $element,
-			'infos' => array(
-				array(
-					'type' => 'highlight',
-					'title' => 'titre test',
-					'content' => 'blablabla',
-					'link' => '/'
-				),
-				array(
-					'type' => 'error',
-					'title' => 'titre test',
-					'content' => 'blablabla',
-					'link' => '/'
-				)
-			)
+			'infos' => Message::getAll()
 		), $retCode);
 	}
 

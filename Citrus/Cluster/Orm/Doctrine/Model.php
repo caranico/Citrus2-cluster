@@ -104,7 +104,7 @@ Class Model extends inc\Synapse implements ModelInterface {
      * @param array $args array of properties
      */
 	public function hydrate( Array $args ) {
-		self::getSchema()->hydrate( $this, $args );
+		return self::getSchema()->hydrate( $this, $args );
 	}
 	
     /**

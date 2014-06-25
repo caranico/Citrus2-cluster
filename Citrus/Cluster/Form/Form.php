@@ -64,6 +64,7 @@ class Form extends Element {
                 $constructor = Input::objFromProperties($id, $props, $this->values->$id);
                 $this->elements[ $id ] = Input::create( $constructor );
                 unset($constructor['options']);
+                unset($constructor['properties']['value']);
                 $this->jsSchema[ $id ] = $constructor;
             }
         }

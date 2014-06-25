@@ -278,9 +278,14 @@ Class Schema extends inc\Synapse {
      */
     public function hydrate( $obj, $args ) {
         $properties = $this->getProperties();
-        foreach ( $args as $propName => $propValue )
-            if ($this->control( $propName, $propValue )) 
+        $modified = false;
+        foreach ( $args as $propName => $propValue ) {
+            if ($this->control( $propName, $propValue )) {
                 $this->update( $obj, $propName, $propValue );
+                $modified = true;
+            }
+        }
+        return $modified;
     }
 
     /**
