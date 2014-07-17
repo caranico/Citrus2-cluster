@@ -69,7 +69,6 @@ abstract class Input extends Element {
                 $res['properties']['maxlength'] = $def['size'];
             if (isset($def['type']))
                 $res['type'] = $def['type'];
-
             if (!is_null($value))
             {
                 if (is_a($value, '\DateTime')) $value= $value->format("d/m/Y H:i:s");
@@ -120,10 +119,12 @@ abstract class Input extends Element {
                     if (isset($rel['foreign']))
                     {
                         $class = $rel['foreign']['class'];
+                        $res['targetClass'] = $class;
                         $sch = $class::getSchema();
                         $res['objClass'] = \Citrus\Cluster\Controller\ObjectController::getSlug( substr($class, strpos($class, '\\', 1) ));
                         $res['options'] = (array) TArray::indexedByUnique( $class::selectAll(), array_shift($sch::getPrimaryKeys()) );
-
+                        if (isset($rel['foreign']['property']))
+                            $res['targetProperty'] = $rel['foreign']['property'];
                         if (isset($props['autocomplete'])) 
                             $res['autocomplete'] = $props['autocomplete'];
                     }
@@ -137,15 +138,19 @@ abstract class Input extends Element {
                     if (isset($rel['foreign']))
                     {
                         $class = $rel['foreign']['class'];
+                        $res['targetClass'] = $class;
                         $sch = $class::getSchema();
                         $res['objClass'] = \Citrus\Cluster\Controller\ObjectController::getSlug( substr($class, strpos($class, '\\', 1) ));
                         $res['options'] = (array) TArray::indexedByUnique( $class::selectAll(), array_shift($sch::getPrimaryKeys()) );
+                        if (isset($rel['foreign']['property']))
+                            $res['targetProperty'] = $rel['foreign']['property'];
                     }
                     if (!is_null($value))
                         $res['properties']['value'] = $value;
 
                 break;
             }
+            if (isset($props['allowUpdate'])) $res['allowUpdate'] = $props['allowUpdate'];
         }
 
         if (isset($props['appearence']))
@@ -155,6 +160,7 @@ abstract class Input extends Element {
             $res['appearence'] = $class::$defaultAppearance;
         }
 
+        if (isset($props['listFields'])) $res['listFields'] = $props['listFields'];
 
         if (isset( $props['libelle'] ))
             $res['label']['libelle'] = $props['libelle'];
