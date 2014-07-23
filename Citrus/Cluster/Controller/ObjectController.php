@@ -94,6 +94,7 @@ class ObjectController extends Controller {
         {
 			return array(
 				'object'=> $view->getInformations('name'),
+				'objects'=> $view->getInformations('pluriel'),
 				'className'=> $this->className,
 				'search'=> $view->getList('searchTemplate'),
 				'fields'=> $view->getList('search'),

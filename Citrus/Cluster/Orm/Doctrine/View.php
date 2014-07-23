@@ -241,6 +241,7 @@ Class View extends inc\Synapse {
 		$listField = array_keys($allField);
 
 		$cond .= ( $sidx && $sord ? ' ORDER BY self.' . $sidx . ' ' . $sord : '' );
+
 		$lst = call_user_func_array( array($class, 'selectAll'), array(
 			$cond , 
 			array(
@@ -253,8 +254,8 @@ Class View extends inc\Synapse {
 		) );
 
 		$responce = (object) array(
-			'page' 		=> $page,
-			'total'		=> ceil( $max / $rows ),
+			'page' 		=> $page ? $page : 1,
+			'total'		=> $rows && $rows > 0 ? ceil( $max / $rows ): 1,
 			'records' 	=> $max,
 			'rows' 		=> array()
 		);
@@ -350,16 +351,18 @@ Class View extends inc\Synapse {
 
 		foreach ( $arr->rules as $rule ) {
 			$model = false;
+			$init = $rule->identity ? "IDENTITY(self.%s)" : "self.%s";
+
 			switch ($rule->op) {
-				case 'bw' : $model = "self.%s LIKE '%s%%'";	break;
-				case 'eq' : $model = "self.%s = '%s'";		break;
-				case 'ne' : $model = "self.%s <> '%s'";		break;
-				case 'lt' : $model = "self.%s < '%s'";		break;
-				case 'le' : $model = "self.%s <= '%s'";		break;
-				case 'gt' : $model = "self.%s > '%s'";		break;
-				case 'ge' : $model = "self.%s >= '%s'";		break;
-				case 'ew' : $model = "self.%s LIKE '%%%s'";	break;
-				case 'cn' : $model = "self.%s LIKE '%%%s%%'";	break;
+				case 'bw' : $model = "$init LIKE '%s%%'";	break;
+				case 'eq' : $model = "$init = '%s'";		break;
+				case 'ne' : $model = "$init <> '%s'";		break;
+				case 'lt' : $model = "$init < '%s'";		break;
+				case 'le' : $model = "$init <= '%s'";		break;
+				case 'gt' : $model = "$init > '%s'";		break;
+				case 'ge' : $model = "$init >= '%s'";		break;
+				case 'ew' : $model = "$init LIKE '%%%s'";	break;
+				case 'cn' : $model = "$init LIKE '%%%s%%'";	break;
 			}
 			if ($model) $resFilter[] = sprintf( $model, $rule->field, $rule->data );
 		}
