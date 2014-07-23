@@ -83,7 +83,6 @@ abstract class Input extends Element {
             if (isset($def['notnull']))
                 $res['notnull'] = $def['notnull'];
 
-
             switch ( $def['type'] ) 
             {
                 case Type::TEXT:
@@ -96,8 +95,6 @@ abstract class Input extends Element {
                     if (isset($def['options'])) {
                         $res['className'] = self::SELECT_ONE;
                         $res['options'] = $def['options'];
-                        if (isset( $res['properties']['value'] ))
-                            $res['properties']['value'] = array_search($res['properties']['value'], $res['options']);
                     }
                     break;
             }
@@ -160,11 +157,12 @@ abstract class Input extends Element {
             $res['appearence'] = $class::$defaultAppearance;
         }
 
-        if (isset($props['listFields'])) $res['listFields'] = $props['listFields'];
+        if (isset($props['listFields'])) {
+            $res['listFields'] = $props['listFields'];
+        }
 
         if (isset( $props['libelle'] ))
             $res['label']['libelle'] = $props['libelle'];
-
         return $res;
     }
 

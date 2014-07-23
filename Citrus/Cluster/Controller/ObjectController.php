@@ -53,6 +53,18 @@ class ObjectController extends Controller {
 		}
 	}
 
+	public function doListMany( SfRequest $request )
+	{
+		$this->retrieveInstance($request);
+        $prop = $request->get( 'property' );
+		if ($this->resource && $prop) {
+			$arr = array();
+			foreach ( $this->resource->$prop as $el ) 
+				$arr[] = $el->toArray( false, true );
+			return $arr;
+		}
+	}
+
 	public function doView( SfRequest $request )
 	{
 

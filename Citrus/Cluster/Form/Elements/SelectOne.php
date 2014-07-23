@@ -53,10 +53,12 @@ class SelectOne extends Input {
         if (!isset( $this->params['options'])) return;
         $reel = is_a( $this->value, '\Citrus\Cluster\Orm\ModelInterface') ? $this->value->id : $this->value;
         $res = array();
-
+        $options = $this->params['options'];
+        if (\Citrus\Cluster\TArray::isIndexed( $options ))
+            $options = array_combine( $options, $options );
         if (!isset($this->params['notnull']))
             $res [] = '<option value=""' . (empty($reel) ? ' selected="selected"':''). '></option>';
-        foreach ($this->params['options'] as $id=>$el)
+        foreach ($options as $id=>$el)
             $res [] = '<option value="' . $id . '"' . ($id == $reel ? ' selected="selected"':''). '>' . $el . '</option>';
         return implode('', $res);
     }
@@ -66,8 +68,11 @@ class SelectOne extends Input {
         $reel = is_a( $this->value, '\Citrus\Cluster\Orm\ModelInterface') ? $this->value->id : $this->value;
         $res = array();
         $first = true;
+        $options = $this->params['options'];
+        if (\Citrus\Cluster\TArray::isIndexed( $options ))
+            $options = array_combine( $options, $options );
 
-        foreach ($this->params['options'] as $id=>$el)
+        foreach ($options as $id=>$el)
         {
             $res [] = '<label>' .
                     '<input type="radio" ' . $this->renderAttributes() . ' value="' . $id . '"' . ($id == $reel || (!isset($reel) && $first) ? ' checked="checked"':''). ' />' .

@@ -56,6 +56,12 @@ class TArray extends \ArrayObject {
 		}
 		return new self( $target );
 	}
+
+	static public function isIndexed( $array )
+	{
+		if (!is_array($array)) return false;
+		else return array_values( $array ) === $array;
+	}
 }
 
 

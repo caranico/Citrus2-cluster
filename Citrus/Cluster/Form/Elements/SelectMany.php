@@ -43,22 +43,19 @@ class SelectMany extends Input {
                 if (isset($this->params['allowUpdate']) && $this->params['allowUpdate'])
                     $sel .= '<button class="orange"><span>Ajouter</span></button>';
 
+                $head = array();
+                $body = array();
+                $class = $this->params['targetClass'];
+                $sch = $class::getView();
+                $props = $sch->getProperties();
+                foreach ($this->params['listFields'] as $k=>$v) 
+                    $head[]='<th><span>' . (is_array($props[ $v ]) ? $props[ $v ]['libelle'] : $props[ $v ]) . '</span><span class="sort"></span></th>';
+                if (isset($this->params['allowUpdate']) && $this->params['allowUpdate'])
+                    $head[]='<th rel="actions"></th>';
+
                 if (count($this->value) == 0) {
-                    $sel .= '<span class="empty">Aucun élément</span>';
+                    $body[]= '<tr class="emptyTr"><td colspan="' . count($head) . '"><span class="empty">Aucun élément</span></td></tr>';
                 } else {
-
-                    $head = array();
-                    $body = array();
-                    $class = $this->params['targetClass'];
-                    $sch = $class::getView();
-                    $props = $sch->getProperties();
-                    foreach ($this->params['listFields'] as $k=>$v) 
-                        $head[]='<th><span>' . (is_array($props[ $v ]) ? $props[ $v ]['libelle'] : $props[ $v ]) . '</span><span class="sort"></span></th>';
-                    if (isset($this->params['allowUpdate']) && $this->params['allowUpdate'])
-                        $head[]='<th rel="actions"></th>';
-
-
-
                     foreach ($this->value as $value) {
                         $tbody = array();
                         foreach ($this->params['listFields'] as $k=>$v) 
@@ -67,21 +64,19 @@ class SelectMany extends Input {
                             $tbody[]='<td><button class="red"><span>Supprimer</span></button> <button class="green"><span>Editer</span></button></td>';
                         $body[] = '<tr id="' . $value->id . '">' . implode('', $tbody) . '</tr>';
                     }
-
-                    $sel .= '<table>'.
-                        '<thead>' .
-                            '<tr>' . 
-                                implode('', $head) . 
-                            '</tr>' .
-                        '</thead>' . 
-                        '<tbody>' .
-                            implode('', $body) . 
-                        '</tbody>' . 
-                    '</table>';
-
                 }
+                $sel .= '<table>'.
+                    '<thead>' .
+                        '<tr>' . 
+                            implode('', $head) . 
+                        '</tr>' .
+                    '</thead>' . 
+                    '<tbody>' .
+                        implode('', $body) . 
+                    '</tbody>' . 
+                '</table>';
 
-                $sel .= '</div>';
+                $sel .= '</div><input type="hidden" name="' . $this->params['properties']['name'] . '" value="' . $this->renderValues(false). '" />';
 
                 return $sel;
             break;

@@ -31,40 +31,40 @@ use Doctrine\ORM,
 
 Class Model extends inc\Synapse implements ModelInterface {
 
-	/**
-	magics
-	*/
+    /**
+    magics
+    */
 
     /**
      * Constructor.
      */
-	public function __construct( $params = array() ) {
-		parent::__construct( $params );
-		self::getSchema()->init( $this );
-	}
+    public function __construct( $params = array() ) {
+        parent::__construct( $params );
+        self::getSchema()->init( $this );
+    }
 
     /**
      * Magic getter
      * @param string $prop propertie name
      */
-	public function __get( $prop ) { 
+    public function __get( $prop ) { 
         $x = new \ReflectionClass( self::getClass() );
         if ( $x->hasProperty( $prop ) ) return $this->$prop;
-		else if (self::getSchema()->control( $prop )) 
-			return parent::__get( $prop );
-	}
+        else if (self::getSchema()->control( $prop )) 
+            return parent::__get( $prop );
+    }
 
     /**
      * Magic setter
      * @param string $prop propertie name
      * @param mixed $value propertie value
      */
-	public function __set( $prop, $value ) { 
+    public function __set( $prop, $value ) { 
         $x = new \ReflectionClass( self::getClass() );
         if ( $x->hasProperty( $prop ) ) $this->$prop = $value;
         else if (self::getSchema()->control( $prop, $value )) 
-			self::getSchema()->update( $this, $prop, $value ); 
-	}
+            self::getSchema()->update( $this, $prop, $value ); 
+    }
 
     /**
      * Magic toString
@@ -73,46 +73,46 @@ Class Model extends inc\Synapse implements ModelInterface {
         return $this->getView()->execIdent( $this );
     }
 
-	/**
-	Publics
-	*/
+    /**
+    Publics
+    */
 
     /**
      * return an array of datas
      * @param bool $deep Target object
      */
-	public function toArray( $deep = true ) {
-		return Schema::toArray( $this, $deep );
-	}
+    public function toArray( $deep = true, $simple = false ) {
+        return Schema::toArray( $this, $deep, $simple );
+    }
 
     /**
      * Save to bdd
      */
-	public function save() {
-		self::getSchema()->save( $this );
-	}
+    public function save() {
+        self::getSchema()->save( $this );
+    }
 
     /**
      * Delete to bdd
      */
-	public function delete() {
-		self::getSchema()->delete( $this );
-	}
+    public function delete() {
+        self::getSchema()->delete( $this );
+    }
 
     /**
      * Hydrate current object with an array of arguments
      * @param array $args array of properties
      */
-	public function hydrate( Array $args ) {
-		return self::getSchema()->hydrate( $this, $args );
-	}
-	
+    public function hydrate( Array $args ) {
+        return self::getSchema()->hydrate( $this, $args );
+    }
+    
     /**
      * Return a JSON representation
      */
-	public function toJSON() {
-		return json_encode( $this->toArray( false ) );
-	}
+    public function toJSON() {
+        return json_encode( $this->toArray( false ) );
+    }
 
     /**
         Static
@@ -121,9 +121,9 @@ Class Model extends inc\Synapse implements ModelInterface {
     /**
      * Return the doctrine entity manager
      */
-	static public function getEntitymanager() {
-		return Adapter::getInstance()->getEntitymanager();
-	}
+    static public function getEntitymanager() {
+        return Adapter::getInstance()->getEntitymanager();
+    }
 
     /**
      * Return the class schema
@@ -142,17 +142,17 @@ Class Model extends inc\Synapse implements ModelInterface {
     /**
      * Return the class metadatas
      */
-	static public function getMetadata() {
+    static public function getMetadata() {
         if (!is_object(self::getEntitymanager())) debug_print_backtrace();
-		return self::getEntitymanager()->getClassMetadata(get_called_class());
-	}
+        return self::getEntitymanager()->getClassMetadata(get_called_class());
+    }
 
     /**
      * Return the class name
      */
-	static public function getClass() {
-		return self::getMetadata()->name;
-	}
+    static public function getClass() {
+        return self::getMetadata()->name;
+    }
 
     /**
      * Return a collection of object
@@ -160,14 +160,14 @@ Class Model extends inc\Synapse implements ModelInterface {
      *
      * @return Collection
      */
- 	static public function selectAll( $where = false, $param = false ) {
+    static public function selectAll( $where = false, $param = false ) {
         $query = self::getEntitymanager()->createQuery( 'SELECT self FROM ' . self::getClass() . ' self ' . ( $where ? $where : '' ) );
         if ($param) {
             if (isset($param['offset'])) $query->setFirstResult( (int) $param['offset'] );
             if (isset($param['limit'])) $query->setMaxResults( (int) $param['limit'] );
         }
-		return $query->getResult();
- 	}
+        return $query->getResult();
+    }
 
     /**
      * Return an integer
@@ -176,23 +176,23 @@ Class Model extends inc\Synapse implements ModelInterface {
      * @return integer
      */
     static public function count( $where = false, $param = false ) {
-		$query = self::getEntitymanager()->createQuery( 'SELECT self FROM ' . self::getClass() . ' self ' . ( $where ? $where : '' ) );
+        $query = self::getEntitymanager()->createQuery( 'SELECT self FROM ' . self::getClass() . ' self ' . ( $where ? $where : '' ) );
         if ($param) {
             if (isset($param['offset'])) $query->setFirstResult( (int) $param['offset'] );
             if (isset($param['limit'])) $query->setMaxResults( (int) $param['limit'] );
         }
-		try { $count = $query->getSingleScalarResult(); }
-		catch (ORM\NonUniqueResultException $e) 	{ $count = count( $query->getResult() ); }
-		catch (ORM\NoResultException $e) 			{ $count = 0; }
-		return $count;
+        try { $count = $query->getSingleScalarResult(); }
+        catch (ORM\NonUniqueResultException $e)     { $count = count( $query->getResult() ); }
+        catch (ORM\NoResultException $e)            { $count = 0; }
+        return $count;
     }
 
     /**
      * Delete an object
      * @param integer $id ident of the object to delete
      */
-	static public function deleteOne( $id ) {
-		self::selectOne( $id )->delete();
+    static public function deleteOne( $id ) {
+        self::selectOne( $id )->delete();
     }
     
     /**
@@ -200,8 +200,8 @@ Class Model extends inc\Synapse implements ModelInterface {
      * @param array $ids array of idents to delete
      */
     static public function deleteMultiple( Array $ids ) {
-    	$lst = self::selectAll( 'WHERE self.id IN ( ' . implode(',', $ids) . ' )' );
-    	foreach ($lst as $obj) $obj->delete();
+        $lst = self::selectAll( 'WHERE self.id IN ( ' . implode(',', $ids) . ' )' );
+        foreach ($lst as $obj) $obj->delete();
     }
 
     /**

@@ -172,6 +172,18 @@ Class Schema extends inc\Synapse {
                     }
                 break;
                 case self::ONE_TO_MANY :
+                    $arrNew = array();
+                    /* new */
+                    $res = preg_match_all ('/new#([^#]*)#new/', $propValue, $matches, PREG_SET_ORDER );
+                    if ($res && $res > 0) {
+                        foreach ($matches as $enreg) {
+                            $nobj = new $rel['foreign']['class']();
+                            $nobj->hydrate( json_decode( $enreg[1], true ) );
+                            $arrNew[] = $nobj;
+                            $propValue = str_replace( $enreg[0], '', $propValue);
+                        }
+                        $propValue = implode(',',array_filter(explode(',',$propValue)));
+                    }
 
                     $lst = empty($propValue) ? array() : call_user_func(array($rel['foreign']['class'], 'selectAll'), 'WHERE self.id IN (' . $propValue . ')');
 
@@ -184,6 +196,10 @@ Class Schema extends inc\Synapse {
 
 
                     foreach ( $lst as $el )
+                        if (!$obj->getData($propName)->contains( $el ))
+                            $obj->getData($propName)->add( $el );
+
+                    foreach ( $arrNew as $el)
                         if (!$obj->getData($propName)->contains( $el ))
                             $obj->getData($propName)->add( $el );
                 break;
@@ -343,16 +359,18 @@ Class Schema extends inc\Synapse {
     }
 
     private function _bilaterralAutoRemove( $obj, $propName, $delValue ) {
-        $meta = $obj->$propName->getMetadata();
-        foreach ( $meta->associationMappings as $ref => $prop ){
-            if ( $prop['type'] == Schema::ONE_TO_ONE || $prop['type'] == Schema::MANY_TO_ONE && $prop['inversedBy'] == $propName) {
-                // todo
+        if ($obj->$propName) {
+            $meta = $obj->$propName->getMetadata();
+            foreach ( $meta->associationMappings as $ref => $prop ){
+                if ( $prop['type'] == Schema::ONE_TO_ONE || $prop['type'] == Schema::MANY_TO_ONE && $prop['inversedBy'] == $propName) {
+                    // todo
+                }
+                else if ( $prop['type'] == Schema::ONE_TO_MANY || $prop['type'] == Schema::MANY_TO_MANY && $prop['mappedBy'] == $propName) {
+                    $obj->$propName->$ref->removeElement($delValue);
+                }
             }
-            else if ( $prop['type'] == Schema::ONE_TO_MANY || $prop['type'] == Schema::MANY_TO_MANY && $prop['mappedBy'] == $propName) {
-                $obj->$propName->$ref->removeElement($delValue);
-            }
+            unset($obj->$propName);
         }
-        unset($obj->$propName);
     }
 
     /**
@@ -427,7 +445,7 @@ Class Schema extends inc\Synapse {
      *
      * @return array
      */
-    static function toArray( $obj, $deep = true ) {
+    static function toArray( $obj, $deep = true, $simple = false ) {
         $meta = $obj->getMetadata();
         $res = array();
         foreach ( $meta->fieldNames as $ref => $field ){
@@ -450,6 +468,13 @@ Class Schema extends inc\Synapse {
                     $res[ $ref ] = $id ? $id->toArray( false ) : '';
                 else if ( $prop['type'] == Schema::ONE_TO_MANY || $prop['type'] == Schema::MANY_TO_MANY) {
                     if ($id) foreach ( $id as $object ) $res[ $ref ][] = $object->toArray( false );
+                    else $res[ $ref ] = array();
+                }
+            } else if ($simple) {
+                if ( $prop['type'] == Schema::ONE_TO_ONE || $prop['type'] == Schema::MANY_TO_ONE)
+                    $res[ $ref ] = $id ? (string) $id : '';
+                else if ( $prop['type'] == Schema::ONE_TO_MANY || $prop['type'] == Schema::MANY_TO_MANY) {
+                    if ($id) foreach ( $id as $object ) $res[ $ref ][] = (string) $object;
                     else $res[ $ref ] = array();
                 }
             }
