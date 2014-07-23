@@ -65,6 +65,7 @@ class Form extends Element {
                 $this->elements[ $id ] = Input::create( $constructor );
                 unset($constructor['options']);
                 unset($constructor['properties']['value']);
+                unset($constructor['targetClass']);
                 $this->jsSchema[ $id ] = $constructor;
             }
         }

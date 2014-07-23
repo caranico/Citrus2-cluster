@@ -67,6 +67,9 @@ class ObjectController extends Controller {
 
 	public function doView( SfRequest $request )
 	{
+		$res = $this->doEdit( $request );
+		$res['form']->setMethod('inline');
+		return $res;
 
 	}
 
