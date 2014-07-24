@@ -89,7 +89,7 @@ class Form extends Element {
         $f = new self(array(
             "attributes" => array(
                 "method" => "POST",
-                "action" => "/classes/" . ObjectController::getSlug( get_class($object) ) . ( $object->id ? '/' . $object->id : '') .  "/" . $action . ".json"
+                "action" => "/classes/" . ObjectController::getSlug( $object->getClass() ) . ( $object->id ? '/' . $object->id : '') .  "/" . $action . ".json"
             ),
             "properties" => array_merge_recursive( $propView, $propSchema)
         ));
