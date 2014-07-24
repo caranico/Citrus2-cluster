@@ -30,7 +30,7 @@ use Citrus\Cluster\Controller\ObjectController,
 
 Class View extends inc\Synapse {
 
-	public function jqgrid() {
+	public function jqgrid( $params = array() ) {
 		$class = $this->getClass();
 		$sh = Adapter::getSchema( $class );
 		$list = $this->getList();
@@ -86,7 +86,7 @@ Class View extends inc\Synapse {
 		$id = md5( date("U") * rand( 1, 99 ) );
 		$slug = ObjectController::getSlug($class);
 
-		$params = array(
+		$params = array_merge( $params, array(
 			'url' 			=> '/classes/' . $slug . '/list.json',
 			'datatype' 		=> 'json',
 			'colNames' 		=> $colNames,
@@ -127,7 +127,7 @@ Class View extends inc\Synapse {
 	        	'var content = $.jsonEnv( xhr.responseJSON );' .
 	        	'$.fn.modal( content, {}, true );' .
 	        '}'
-		);
+		));
 
 		$paramsPager = array(
 			array(
