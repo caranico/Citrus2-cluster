@@ -81,8 +81,9 @@ class TwigTemplateListener implements EventSubscriberInterface
                 }
                 $template_engine->loadTemplate($template);
                 $content = $template_engine->render($args);
+
                 if ($request->isXmlHttpRequest()) 
-                    $response = ResponseCachedJsonEnv::get($request, $content);
+                    $response = ResponseCachedJsonEnv::get($request, $content, $request->attributes->get('_login') ? 403 : 200);
                 else
                     $response = ResponseCached::get($request, $content);
                 break;

@@ -27,6 +27,7 @@ class ControllerResolver extends SfControllerResolver
         if (!$this->app->isUserLogged() && !isset($arrRight[$ctrl]['safe'])) 
         {
             $request->attributes->set('_controller', $app . '/' . $this->app['config']['default_ctrl'] . '/'. $this->app['config']['layout']['login']);
+            $request->attributes->set('_login', true );
         }
         else if ( $ctrl && false !== strpos($ctrl, 'AutoClasse') ) 
         {
