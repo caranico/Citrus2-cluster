@@ -30,7 +30,7 @@ use Citrus\Cluster\Controller\ObjectController,
 
 Class View extends inc\Synapse {
 
-	public function jqgrid( $params = array() ) {
+	public function jqgrid( $params = array(), $paramsPager = array() ) {
 		$class = $this->getClass();
 		$sh = Adapter::getSchema( $class );
 		$list = $this->getList();
@@ -86,7 +86,7 @@ Class View extends inc\Synapse {
 		$id = md5( date("U") * rand( 1, 99 ) );
 		$slug = ObjectController::getSlug($class);
 
-		$params = array_merge( $params, array(
+		$params = array_merge( array(
 			'url' 			=> '/classes/' . $slug . '/list.json',
 			'datatype' 		=> 'json',
 			'colNames' 		=> $colNames,
@@ -96,7 +96,7 @@ Class View extends inc\Synapse {
 			'multiselect' 	=> $this->getList('multiselect') || false,
 			'shrinkToFit' 	=> $this->getList('shrinkToFit') || false,
 			'rowList' 		=> array(10,20,30),
-			'pager'			=> '#pager_' . $id , 
+			'pager'			=> is_array($paramsPager) ? '#pager_' . $id : false , 
 			'sortname' 		=> $ordername,
 			'viewrecords'	=> true,
 			'sortorder' 	=> $ordersort,
@@ -127,22 +127,23 @@ Class View extends inc\Synapse {
 	        	'var content = $.jsonEnv( xhr.responseJSON );' .
 	        	'$.fn.modal( content, {}, true );' .
 	        '}'
-		));
-
-		$paramsPager = array(
-			array(
-				'edit'		=>$this->getList('edit') || false,
-				'add'		=>$this->getList('add') || false,
-				'del'		=>$this->getList('del') || false,
-				'addfunc'	=>'function () { }',
-				'search'	=>$this->getList('searchBt') || false
-			),
-			array(),
-			array(),
-			array(),
-			$this->getList('searchOpt') ? $this->getList('searchOpt') : array()
-		);
-
+		), $params);
+		if (is_array($paramsPager) )
+		{
+			$paramsPager = array_merge( array(
+				array(
+					'edit'		=>$this->getList('edit') || false,
+					'add'		=>$this->getList('add') || false,
+					'del'		=>$this->getList('del') || false,
+					'addfunc'	=>'function () { }',
+					'search'	=>$this->getList('searchBt') || false
+				),
+				array(),
+				array(),
+				array(),
+				$this->getList('searchOpt') ? $this->getList('searchOpt') : array()
+			), $paramsPager);
+		}
 		$paramsColumn = array(
 			'caption' 			=> '',
 			'buttonicon'		=> 'ui-icon-gear',
@@ -189,6 +190,7 @@ Class View extends inc\Synapse {
 				'$(document).ready(function () {' . chr(10) .
 					'var lastsel;' .
 					'$("#' . $id . '").jqGrid(' . TObject::jsonize( $params ) . ')' . chr(10) .
+					(is_array($paramsPager) ?
 					'.navGrid(' .
 						'"#pager_' . $id.'",' .
 						TObject::jsonize( $paramsPager[0] ) . ', ' .
@@ -202,7 +204,7 @@ Class View extends inc\Synapse {
 					($this->getList('exportCSV') ? '.navButtonAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsExportCSV ) . ') ' . chr(10) : '') .
 					($this->getList('exportXLS') ? '.navButtonAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsExportXLS ) . ') ' . chr(10) : '') .
 					($this->getList('exportCSV') || $this->getList('exportXLS') ?'.navSeparatorAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsSepar ) . ') '. chr(10) : '') .
-					($this->getList('columnChooser') ? '.navButtonAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsColumn ) . '); ' . chr(10) : '') .
+					($this->getList('columnChooser') ? '.navButtonAdd("#pager_' . $id . '",' . TObject::jsonize( $paramsColumn ) . '); ' . chr(10) : '')  : ';').
 				'});' . chr(10) .
 			'</script>';
 	}
