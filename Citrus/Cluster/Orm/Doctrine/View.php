@@ -263,6 +263,7 @@ Class View extends inc\Synapse {
 		);
 
 		$action  = $this->getList('action');
+		$slug = ObjectController::getSlug($class);
 
 		foreach ( $lst as $object ) {
 			foreach ( $listField as $col ) {
@@ -275,7 +276,7 @@ Class View extends inc\Synapse {
 				}
 				else {
 					if ( isset($lstOption['link']) && in_array( $col,  $lstOption['link'])) {
-						$cell[ $col ] = '<a href="' . $object->id . '/' . (isset($lstOption['linkAction']) ? $lstOption['linkAction'] : 'edit') . '">' . $value . '</a>'; 
+						$cell[ $col ] = '<a href="/classes/' . $slug . '/' . $object->id . '/' . (isset($lstOption['linkAction']) ? $lstOption['linkAction'] : 'edit') . '">' . $value . '</a>'; 
 					}
 					else $cell[ $col ] = $value;
 				}
