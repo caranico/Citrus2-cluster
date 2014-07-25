@@ -58,8 +58,17 @@ class SelectMany extends Input {
                 } else {
                     foreach ($this->value as $value) {
                         $tbody = array();
-                        foreach ($this->params['listFields'] as $k=>$v) 
-                            $tbody[]='<td><span>' . $value->$v . '</span></td>';
+                        foreach ($this->params['listFields'] as $k=>$v) {
+                            if (isset($this->params['linkFields']) && in_array($v, array_keys($this->params['linkFields']))) {
+                                $obj = $value->toArray();
+                                $lnk = $this->params['linkFields'][$v];
+                                foreach ( $obj as $k0 => $v0 ) if (!is_array($v0))
+                                    $lnk = preg_replace("/{" . $k0 . "}/", $v0, $lnk );
+                                $tbody[]='<td><span><a href="' . $lnk . '">' . $value->$v . '</a></span></td>';
+                            }
+                            else
+                                $tbody[]='<td><span>' . $value->$v . '</span></td>';
+                        }
                         if (isset($this->params['allowUpdate']) && $this->params['allowUpdate'])
                             $tbody[]='<td><button class="red"><span>Supprimer</span></button> <button class="green"><span>Editer</span></button></td>';
                         $body[] = '<tr id="' . $value->id . '">' . implode('', $tbody) . '</tr>';
