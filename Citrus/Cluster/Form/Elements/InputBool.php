@@ -34,7 +34,7 @@ class InputBool extends Input {
                         '<span class="label">' . $this->params['label']['libelle'] . '</span>' .
                         parent::__toString() .
                         '<span class="checkbox"></span>' .
-                        '<span class="label">' . ($this->params['properties']['value'] ? 'Oui' : 'Non') . '</span>' .
+                        '<span class="labelValue">' . ($this->params['properties']['value'] ? 'Oui' : 'Non') . '</span>' .
                     '</label>';
             break;
         }

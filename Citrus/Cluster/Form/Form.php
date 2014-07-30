@@ -61,7 +61,7 @@ class Form extends Element {
         foreach ( $this->properties as $id => $props ) {
             if (!isset($props['definition']['primary']) && (!isset($props['constraint']['display']) || $props['constraint']['display'])) 
             {
-                $constructor = Input::objFromProperties($id, $props, $this->values->$id);
+                $constructor = Input::objFromProperties($id, $props, $this->values ? $this->values->$id : null);
                 $this->elements[ $id ] = Input::create( $constructor );
                 unset($constructor['options']);
                 unset($constructor['properties']['value']);
@@ -74,7 +74,17 @@ class Form extends Element {
     public function getElement( $name = false )
     {
         if (!$name) return $this->elements;
-        return $this->elements[ $name ];
+        else if (substr($name, -1, 1) == '*')
+        {
+            $ret = array();
+            foreach ($this->elements as $id => $el) {
+                if (substr( $id, 0, strlen($name)-1) == substr( $name, 0, strlen($name)-1)) {
+                    $ret[ $id ] = $el;
+                }
+            }
+            return $ret;
+        }
+        else return $this->elements[ $name ];
     }
 
     public static function fromObject( $object, $action ) {
@@ -100,7 +110,11 @@ class Form extends Element {
 
     public function getHead( $callback = array(), $class=array() ) {
         $this->mergeAttribute('class', array_merge($class, array('jform')));
-        return $this->generateValidationScript($callback) . '<span class="jformMarker" id="' . $this->marker . '"></span><form ' . $this->renderAttributes().'>';       
+        return $this->generateValidationScript($callback) . $this->getMarker() . '<form ' . $this->renderAttributes().'>';       
+    }
+
+    public function getMarker() {
+        return '<span class="jformMarker" id="' . $this->marker . '"></span>';       
     }
 
     public function getFoot( $param = array() ) {

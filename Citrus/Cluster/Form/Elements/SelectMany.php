@@ -6,7 +6,7 @@ use Citrus\Cluster\Form\Input;
 
 class SelectMany extends Input {
 
-    private $value;
+    private $value = array();
     static $defaultAppearance = 'default';
 
     public function __construct( Array $params = array() ) {

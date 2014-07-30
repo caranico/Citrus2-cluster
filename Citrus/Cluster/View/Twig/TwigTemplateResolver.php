@@ -6,7 +6,7 @@ class TwigTemplateResolver {
     protected $container;
 
     public function __construct( $container ) {
-    	$this->container = $container;
+        $this->container = $container;
     }
 
     public function getTemplate($request) {
@@ -23,7 +23,9 @@ class TwigTemplateResolver {
         } else {
             $type = 'Apps';
             list($app, $class, $method) = explode('/', $controller, 3);
-            return '@' . $type . $this->container['config']['current_app'] . '/' . $method;
+            $add = explode('\\', $class);
+            array_shift($add);
+            return '@' . $type . $this->container['config']['current_app'] . (count($add)>0? implode('/', $add) : '') . '/' . $method;
         }
     }
 }

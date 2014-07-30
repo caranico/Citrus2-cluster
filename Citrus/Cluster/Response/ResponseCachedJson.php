@@ -7,9 +7,11 @@ use Symfony\Component\HttpFoundation\Response,
 class ResponseCachedJson extends Response
 {
 
-	public function __construct( Request $request, $element, $retCode = 200 )
+	public function __construct( Request $request, $element, $retCode = 200, $as = 'array' )
 	{
-		$ret = json_encode($element);
+		if ($as == 'array') $ret = json_encode($element);
+		else $ret = '(function(){ ' . $as . '=' . json_encode($element) . ' })();';
+
 		$hash = md5( $ret );
 		$headers = array('Etag' => $hash );
 
@@ -32,8 +34,8 @@ class ResponseCachedJson extends Response
 		}
 	}
 
-	static public function get( Request $request, $element, $retCode = 200 ) {
-      	return new self($request, $element, $retCode);
+	static public function get( Request $request, $element, $retCode = 200, $as = 'array' ) {
+      	return new self($request, $element, $retCode, $as);
 	}
 
 }
