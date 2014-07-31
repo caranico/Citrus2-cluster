@@ -20,6 +20,8 @@ use Symfony\Component\HttpFoundation\Request,
     Citrus\Cluster\Response\ResponseCached,
     Citrus\Cluster\Response\ResponseCachedJsonEnv;
 
+include_once( __DIR__ . '/functions.php');
+
 class App extends CitrusApp
 {
     const VERSION = '2.0a-DEV';

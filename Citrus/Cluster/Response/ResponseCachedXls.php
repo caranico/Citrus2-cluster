@@ -25,11 +25,13 @@ class ResponseCachedXls extends Response
 			$cols = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 			$objPHPExcel = new \PHPExcel();
 			$objPHPExcel->setActiveSheetIndex(0);
+
+
 			foreach ($string as $id => $row) {
 				$real = $id + 1;
 				foreach ($row as $id => $val) {
 					$col = $cols[$id];
-					$objPHPExcel->getActiveSheet()->setCellValue($col.$real, $val);
+					$objPHPExcel->getActiveSheet()->setCellValueExplicit($col.$real, (string) $val, \PHPExcel_Cell_DataType::TYPE_STRING);
 				}
 			}
 			$objWriter = new \PHPExcel_Writer_Excel5($objPHPExcel);
