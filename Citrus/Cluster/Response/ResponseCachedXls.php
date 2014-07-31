@@ -30,7 +30,13 @@ class ResponseCachedXls extends Response
 			foreach ($string as $id => $row) {
 				$real = $id + 1;
 				foreach ($row as $id => $val) {
-					$col = $cols[$id];
+					if (isset($cols[$id])) {
+						$col = $cols[$id];
+					}
+					else {
+						$master = floor( $id / strlen( $cols ) ) - 1;
+						$col = $cols[$master] . $cols[$id % strlen($cols)];
+					}
 					$objPHPExcel->getActiveSheet()->setCellValueExplicit($col.$real, (string) $val, \PHPExcel_Cell_DataType::TYPE_STRING);
 				}
 			}
