@@ -209,7 +209,7 @@ Class View extends inc\Synapse {
 			'</script>';
 	}
 
-	public function jqgridList( $request ) {
+	public function jqgridList( $request, $lst = false ) {
 		$rows = $request->get( 'rows');
 		$page = $request->get( 'page');
 		$sidx = $request->get( 'sidx');
@@ -220,40 +220,50 @@ Class View extends inc\Synapse {
 
 		if ($search) $filters = $request->get( 'filters');
 
-		$cond = '';
-		if ($filters) $cond = 'WHERE ' .$this->_filter( json_decode( $filters ) );
-		else if ( $term ) {
-			// gestion de la recherche autocomplete
-			if (!$page) $page =1;
-			if (!$rows) $rows =10;
-			$list = $this->getList();
-			$res = array();
-			foreach ($list['search'] as $field){
-				$res[]=sprintf("self.%s LIKE '%s%%'", $field, $term);
-				$res[]=sprintf("self.%s LIKE '%%%s%%'", $field, $term);
-				$res[]=sprintf("self.%s LIKE '%%%s'", $field, $term);
-			}
-			$cond = 'WHERE ' . implode(' OR ', $res );
-		}
-
 		$class = $this->getClass();
 		$sh = Adapter::getSchema( $class );
 		$lstOption = Adapter::getView( $class )->getList();
 		$allField = $sh->getProperties();
 		$listField = array_keys($allField);
+		
+		if (!$lst)
+		{
+			$cond = '';
+			if ($filters) $cond = 'WHERE ' .$this->_filter( json_decode( $filters ) );
+			else if ( $term ) {
+				// gestion de la recherche autocomplete
+				if (!$page) $page =1;
+				if (!$rows) $rows =10;
+				$list = $this->getList();
+				$res = array();
+				foreach ($list['search'] as $field){
+					$res[]=sprintf("self.%s LIKE '%s%%'", $field, $term);
+					$res[]=sprintf("self.%s LIKE '%%%s%%'", $field, $term);
+					$res[]=sprintf("self.%s LIKE '%%%s'", $field, $term);
+				}
+				$cond = 'WHERE ' . implode(' OR ', $res );
+			}
 
-		$cond .= ( $sidx && $sord ? ' ORDER BY self.' . $sidx . ' ' . $sord : '' );
+			$cond .= ( $sidx && $sord ? ' ORDER BY self.' . $sidx . ' ' . $sord : '' );
 
-		$lst = call_user_func_array( array($class, 'selectAll'), array(
-			$cond , 
-			array(
-				'offset'=> (($page-1) * $rows), 
-				'limit' => $rows 
-			)
-		) );
-		$max = call_user_func_array( array($class, 'count'), array(
-			$cond
-		) );
+			$lst = call_user_func_array( array($class, 'selectAll'), array(
+				$cond , 
+				array(
+					'offset'=> (($page-1) * $rows), 
+					'limit' => $rows 
+				)
+			) );
+			$max = call_user_func_array( array($class, 'count'), array(
+				$cond
+			) );
+		} else {
+			$lstCopy = $lst;
+			$lstCopy->setFirstResult(($page-1) * $rows);
+			$lstCopy->setMaxResults($page * $rows);
+			$max = count( $lst->getQuery()->getResult() );
+			$lst = $lstCopy->getQuery()->getResult();
+		}
+
 
 		$responce = (object) array(
 			'page' 		=> $page ? $page : 1,

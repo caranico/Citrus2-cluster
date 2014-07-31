@@ -164,8 +164,12 @@ abstract class Input extends Element {
             $res['linkFields'] = $props['linkFields'];
         }
 
+        if (isset( $props['label'] ))
+            $res['label'] = $props['label'];
+
         if (isset( $props['libelle'] ))
             $res['label']['libelle'] = $props['libelle'];
+
         return $res;
     }
 
