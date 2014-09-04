@@ -62,6 +62,14 @@ class TArray extends \ArrayObject {
 		if (!is_array($array)) return false;
 		else return array_values( $array ) === $array;
 	}
+
+	static public function merge( array $array1, array $array2 )
+	{
+		foreach ( $array2 as $key => $value )
+			$array1 [$key] = ( is_array ( $value ) && isset ( $array1 [$key] ) && is_array ( $array1 [$key] ) ) ? self::merge ( $array1 [$key], $value ) : $value;
+		return $array1;
+	}
+
 }
 
 

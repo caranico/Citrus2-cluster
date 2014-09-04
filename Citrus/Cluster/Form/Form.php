@@ -3,7 +3,8 @@
 namespace Citrus\Cluster\Form;
 
 use Citrus\Cluster\Controller\ObjectController,
-    Citrus\Cluster\TObject;
+    Citrus\Cluster\TObject,
+    Citrus\Cluster\TArray;
 
 class Form extends Element {
     protected $properties;
@@ -101,7 +102,7 @@ class Form extends Element {
                 "method" => "POST",
                 "action" => "/classes/" . ObjectController::getSlug( $object->getClass() ) . ( $object->id ? '/' . $object->id : '') .  "/" . $action . ".json"
             ),
-            "properties" => array_merge_recursive( $propView, $propSchema)
+            "properties" => TArray::merge( $propSchema, $propView )
         ));
 
         $f->attachObject( $object, true );

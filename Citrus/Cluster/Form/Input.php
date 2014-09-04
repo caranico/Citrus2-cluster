@@ -86,6 +86,7 @@ abstract class Input extends Element {
             switch ( $def['type'] ) 
             {
                 case Type::TEXT:
+                case self::WYSIWYG:
                     $res['className'] = self::TEXTAREA;
                     break;
                 case Type::BOOLEAN:

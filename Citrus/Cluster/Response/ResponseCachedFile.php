@@ -47,7 +47,7 @@ class ResponseCachedFile extends Response
 		}
 	}
 
-	static public function get( Request $request, $filename, $context  ) {
+	static public function get( Request $request, $filename, $context, $path = false  ) {
 
 		if (!is_file($filename)) {
 			$arr = explode('/', $filename);
@@ -61,7 +61,7 @@ class ResponseCachedFile extends Response
 
 		switch ($ext) {
 			case 'css' :
-				$filtersPath = new AsseticFilter\CssUrlPath( $context['asset'] );
+				$filtersPath = new AsseticFilter\CssUrlPath( $libs ? $context['libs'] : $context['asset'], $path );
 				$filtersCompress = new Yui\CssCompressorFilter( $context['vendor'] .'/nervo/yuicompressor/yuicompressor.jar');
 				return ResponseCachedCss::get($request, new AssetCollection(array(new FileAsset($filename)), array($filtersPath, $filtersCompress)), $context );
 				break;
