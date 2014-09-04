@@ -61,7 +61,7 @@ class ResponseCachedFile extends Response
 
 		switch ($ext) {
 			case 'css' :
-				$filtersPath = new AsseticFilter\CssUrlPath( $libs ? $context['libs'] : $context['asset'], $path );
+				$filtersPath = new AsseticFilter\CssUrlPath( $path ? $context['libs'] : $context['asset'], $path );
 				$filtersCompress = new Yui\CssCompressorFilter( $context['vendor'] .'/nervo/yuicompressor/yuicompressor.jar');
 				return ResponseCachedCss::get($request, new AssetCollection(array(new FileAsset($filename)), array($filtersPath, $filtersCompress)), $context );
 				break;
