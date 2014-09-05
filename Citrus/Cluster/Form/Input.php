@@ -56,7 +56,6 @@ abstract class Input extends Element {
     static public function objFromProperties( $id, $props, $value = null )
     {
         $res = array();
-
         $res['className'] = self::INPUT_TEXT;
         $res['properties']['name'] = $id;
         if (isset($props['constraint']))
@@ -88,6 +87,9 @@ abstract class Input extends Element {
                 case Type::TEXT:
                 case self::WYSIWYG:
                     $res['className'] = self::TEXTAREA;
+                    break;
+                case self::INPUT_HIDDEN:
+                    $res['className'] = self::INPUT_HIDDEN;
                     break;
                 case Type::BOOLEAN:
                     $res['className'] = self::INPUT_BOOL;

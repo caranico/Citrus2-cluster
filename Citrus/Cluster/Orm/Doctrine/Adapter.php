@@ -26,9 +26,9 @@
 namespace Citrus\Cluster\Orm\Doctrine;
 
 use Doctrine\ORM,
-	Doctrine\DBAL\Types\Type,
+    Doctrine\DBAL\Types\Type,
     Doctrine\DBAL\Logging\DebugStack,
-	Doctrine\Common\EventManager,
+    Doctrine\Common\EventManager,
     Doctrine\ORM\Mapping\Driver\DriverChain,
     Doctrine\Common\Proxy\AbstractProxyFactory;
 
@@ -73,16 +73,16 @@ Class Adapter extends inc\Synapse {
      */
     static public $cachePath = null;
     
-	/**
-	magics
-	*/
+    /**
+    magics
+    */
 
     /**
      * Constructor
      */
     public function __construct() {
         parent::__construct();
-		$this->connect();
+        $this->connect();
     }
 
     /**
@@ -95,12 +95,12 @@ Class Adapter extends inc\Synapse {
      */
     public function connect( $idBdd = false ) {
         $chain = new DriverChain();
-    	$bdds = self::$_bdds;
-    	$lst = $this->getAllEntitymanagers();
+        $bdds = self::$_bdds;
+        $lst = $this->getAllEntitymanagers();
         $arrk = array_keys($bdds);
         if (!$idBdd) $idBdd = array_shift( $arrk );
-    	if (!isset( $lst[ $idBdd ] )) {
-			$config = ORM\Tools\Setup::createConfiguration( self::$_debug );
+        if (!isset( $lst[ $idBdd ] )) {
+            $config = ORM\Tools\Setup::createConfiguration( self::$_debug );
 
             $config->setProxyDir(self::$cachePath);
             //$config->setProxyNamespace( isset( $bdds[ $idBdd ]['type'] ) ? $bdds[ $idBdd ]['type'] : 'Main');
@@ -110,23 +110,23 @@ Class Adapter extends inc\Synapse {
             $config->setMetadataDriverImpl( $chain );
             if (self::$_debug)
                 $config->setSQLLogger(new DebugStack());
-			$eventManager = new EventManager();
-			$eventManager->addEventListener(array( ORM\Events::preUpdate ), new inc\ModelListener());
-			$em = ORM\EntityManager::create( $bdds[ $idBdd ] , $config, $eventManager);
-			$em->getMetadataFactory()->setReflectionService( new inc\Reflection() );
+            $eventManager = new EventManager();
+            $eventManager->addEventListener(array( ORM\Events::preUpdate ), new inc\ModelListener());
+            $em = ORM\EntityManager::create( $bdds[ $idBdd ] , $config, $eventManager);
+            $em->getMetadataFactory()->setReflectionService( new inc\Reflection() );
 
 
 
 
-			$lst[ $idBdd ] = $em;
-    		$this->setAllEntitymanagers( $lst );
-    		$this->_addType( $em->getConnection(), Schema::TARRAY , '\Citrus\Cluster\Orm\Doctrine\inc\type\ArrayType');
-    		$this->_addType( $em->getConnection(), Schema::JSON_ARRAY , '\Citrus\Cluster\Orm\Doctrine\inc\type\JsonArrayType');
-    	}
+            $lst[ $idBdd ] = $em;
+            $this->setAllEntitymanagers( $lst );
+            $this->_addType( $em->getConnection(), Schema::TARRAY , '\Citrus\Cluster\Orm\Doctrine\inc\type\ArrayType');
+            $this->_addType( $em->getConnection(), Schema::JSON_ARRAY , '\Citrus\Cluster\Orm\Doctrine\inc\type\JsonArrayType');
+        }
         $this->setCurrent( $idBdd );
         $this->setEntitymanager( $lst[ $idBdd ] );
-		$this->setConnection( $lst[ $idBdd ]->getConnection() );
-		return $this;
+        $this->setConnection( $lst[ $idBdd ]->getConnection() );
+        return $this;
     }
 
 
@@ -152,8 +152,8 @@ Class Adapter extends inc\Synapse {
      * autoload
      */
     static function autoload( $class ) {
-		return (!self::getClass( $class ) && !Schema::simuleObject( $class ));
-	}
+        return (!self::getClass( $class ) && !Schema::simuleObject( $class ));
+    }
 
     /**
      * Schema getter, return a schema object
@@ -229,28 +229,28 @@ Class Adapter extends inc\Synapse {
     /**
         Static - private
     */
-	
+    
     /**
      * Class includer
      * @param  string $class className
      */
-	static private function getClass( $class ) {
+    static private function getClass( $class ) {
         $arr = explode( '\\' , $class );
         $name = end( $arr );
-		$path = strtolower( implode( DIRECTORY_SEPARATOR, $arr) );
+        $path = strtolower( implode( DIRECTORY_SEPARATOR, $arr) );
         $path = preg_replace("/controller$/", "", $path);
-		if ( file_exists( self::$classPath  . "/$path/$name.php" ) ) return include self::$classPath . "/$path/$name.php";
-		else return false;
-	}
+        if ( file_exists( self::$classPath  . "/$path/$name.php" ) ) return include self::$classPath . "/$path/$name.php";
+        else return false;
+    }
 
     /**
      * File includer
      * @param  string $filename
-	 * @param  mixed $return default value to return if the file is not found
+     * @param  mixed $return default value to return if the file is not found
      */
-	static private function getFile( $filename , $return = false ) {
-	    return file_exists( $filename ) ? include $filename : $return;
-	}
+    static private function getFile( $filename , $return = false ) {
+        return file_exists( $filename ) ? include $filename : $return;
+    }
 
     static private function getCacheId( $class ) {
         return sha1( self::$classPath . str_replace( '\\', '', $class ) );

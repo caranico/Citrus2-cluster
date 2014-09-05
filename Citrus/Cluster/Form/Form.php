@@ -130,9 +130,9 @@ class Form extends Element {
         if ( $p['addEl'] && is_array($p['addEl']) ) foreach($p['addEl'] as $k) $res .= isset( $this->elements[$k] ) ? $this->elements[$k] : $k;
         return '
         <div class="form_ctrl">'.
-            $res .
             ($p['obligatoire'] ? '<span class="validInfo">* ' . $p['obligatoire'] . '</span>':'') .
             ($p['reset'] ? '<button type="reset" class="red"><span>' . $p['reset'] . '</span></button>':'') .
+            $res .
             ($p['submit'] ? '<button type="submit" class="green"><span>' . $p['submit'] . '</span></button>':'') .
             ($p['button'] ? '<button type="button"><span>' . $p['button'] . '</span></button>':'') .
         '</div></form>'.chr(10);
