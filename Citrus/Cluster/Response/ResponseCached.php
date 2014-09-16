@@ -23,7 +23,7 @@ class ResponseCached extends Response
 			$headersDiff['Date'] 			= gmdate("D, d M Y H:i:s", time())." GMT";
 			$headersDiff['Last-Modified'] 	= gmdate("D, d M Y H:i:s", time())." GMT";
 			$headersDiff['content-type'] 	= "text/html;charset=utf-8";
-			$headersDiff['Expires'] 		= gmdate("D, d M Y H:i:s", ( time() + 60*60*24*50 ) )." GMT";
+			//$headersDiff['Expires'] 		= gmdate("D, d M Y H:i:s", ( time() + 60*60*24*50 ) )." GMT";
 		    if ( strpos($request->server->get('HTTP_ACCEPT_ENCODING'), 'gzip') !== false ) {
 		        $content = gzencode(trim($content), 9);
 		        $headersDiff['Content-Encoding'] = 'gzip';

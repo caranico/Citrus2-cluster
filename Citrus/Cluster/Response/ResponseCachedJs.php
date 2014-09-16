@@ -28,7 +28,7 @@ class ResponseCachedJs extends Response
 			$headers['Date'] 			= gmdate("D, d M Y H:i:s", time())." GMT";
 			$headers['Last-Modified'] 	= gmdate("D, d M Y H:i:s", $assetCollection->getLastModified())." GMT";
 			$headers['content-type'] 	= "application/javascript;charset=utf-8";
-			$headers['Expires'] 		= gmdate("D, d M Y H:i:s", ( time() + 60*60*24*50 ) )." GMT";
+			//$headers['Expires'] 		= gmdate("D, d M Y H:i:s", ( time() + 60*60*24*50 ) )." GMT";
 
 			if ( strpos($request->server->get('HTTP_ACCEPT_ENCODING'), 'gzip') !== false ) {
 		        $ret = gzencode(trim($ret), 9);

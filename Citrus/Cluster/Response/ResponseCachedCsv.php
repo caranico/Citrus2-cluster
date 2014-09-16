@@ -32,7 +32,7 @@ class ResponseCachedCsv extends Response
 			$headers['Last-Modified'] 	= gmdate("D, d M Y H:i:s", time())." GMT";
 			$headers['content-type'] 	= "text/csv;charset=utf-8";
 			$headers['content-disposition'] 	= "attachment; filename=\"$filename\"";
-			$headers['Expires'] 		= gmdate("D, d M Y H:i:s", ( time() + 60*60*24*50 ) )." GMT";
+			//$headers['Expires'] 		= gmdate("D, d M Y H:i:s", ( time() + 60*60*24*50 ) )." GMT";
 			$headers['Content-Length'] 	= strlen($final);
     		parent::__construct( $final, 200, $headers );
 		}

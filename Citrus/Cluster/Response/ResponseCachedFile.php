@@ -35,7 +35,7 @@ class ResponseCachedFile extends Response
 			$headers['Date'] 			= gmdate("D, d M Y H:i:s", time())." GMT";
 			$headers['Last-Modified'] 	= gmdate("D, d M Y H:i:s", filemtime($path))." GMT";
 			$headers['content-type'] 	= mime_content_type($path) . ";charset=utf-8";
-			$headers['Expires'] 		= gmdate("D, d M Y H:i:s", ( time() + 60*60*24*50 ) )." GMT";
+			//$headers['Expires'] 		= gmdate("D, d M Y H:i:s", ( time() + 60*60*24*50 ) )." GMT";
 
 		    if ( strpos($request->server->get('HTTP_ACCEPT_ENCODING'), 'gzip') !== false && in_array($ext, array('gif', 'png', 'jpg')) ) {
 		        $ret = gzencode(trim($ret), 9);

@@ -282,7 +282,10 @@ Class View extends inc\Synapse {
 				if (is_object($value)) {
 					if ( get_class($value) == 'DateTime' ) $cell[ $col ] = $value->format('d/m/Y H:i:s');
 					else if ( get_class( $value ) == 'Doctrine\ORM\PersistentCollection' ) $cell[ $col ] = count( $value );
-					else if ( is_a( $value, 'Citrus\Cluster\Orm\Doctrine\Model' ) ) $cell[ $col ] = (string) $value;
+					else if ( is_a( $value, 'Citrus\Cluster\Orm\Doctrine\Model' ) ) {
+						$cell[ $col ] = (string) $value;
+						$cell[ $col . '_id' ] = $value->id;
+					}
 				}
 				else {
 					if ( isset($lstOption['link']) && in_array( $col,  $lstOption['link'])) {
