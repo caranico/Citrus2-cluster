@@ -95,7 +95,7 @@ Class Schema extends inc\Synapse {
                             if (is_object( $propValue ) && is_a( $propValue , '\Muffin\Citrus\Orm\ModelInterface'))
                                 return '\\' . $propValue->getClass() == $rel['foreign']['class'];
                             else if (isset($rel['foreign']['class']))
-                                return is_numeric( $propValue ) || empty( $propValue );
+                                return is_numeric( $propValue ) || empty( $propValue ) || substr( $propValue, 0, 7) == 'newobj:';
                             else return true;
                         break;
                         case self::ONE_TO_MANY :
@@ -119,6 +119,7 @@ Class Schema extends inc\Synapse {
                             return is_array( $propValue ) && array_keys($propValue) === range(0, count($propValue) - 1);
                         break;
                         # TODO
+                        case Schema::STRING:
                         case Schema::DATETIME:
                         case Schema::DATE:
                         case Schema::TIME:
@@ -126,7 +127,6 @@ Class Schema extends inc\Synapse {
                         case Schema::INTEGER:
                         case Schema::OBJECT:
                         case Schema::SMALLINT:
-                        case Schema::STRING:
                         case Schema::BIGINT:
                         case Schema::TEXT:
                         case Schema::BLOB:
@@ -162,6 +162,12 @@ Class Schema extends inc\Synapse {
                     else if (isset($rel['foreign']['class']) && is_numeric( $propValue ))
                     {
                         $obj->setData($propName, call_user_func(array($rel['foreign']['class'], 'selectOne'), (int)$propValue));
+                    }
+                    else if (isset($rel['foreign']['class']) && substr( $propValue, 0, 7 ) == 'newobj:')
+                    {
+                        $newObj = new $rel['foreign']['class']();
+                        $newObj->hydrate( json_decode( substr($propValue, 7), true ) );
+                        $obj->setData($propName, $newObj);
                     }
                     else {
                         if (empty( $propValue))
@@ -232,7 +238,10 @@ Class Schema extends inc\Synapse {
                 case Schema::SIMPLE_ARRAY:
                 # TODO
                 case Schema::STRING:
-                    if (isset($def['enctype'])) $propValue = call_user_func($def['enctype'], $propValue);
+                    if (isset($def['enctype'])) {
+                        if ($propValue == $obj->getData( $propName )) return;
+                        $propValue = call_user_func($def['enctype'], $propValue);
+                    }
                 case Schema::DATETIME:
                 case Schema::DATE:
                 case Schema::TIME:

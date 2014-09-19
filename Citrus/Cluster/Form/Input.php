@@ -163,6 +163,10 @@ abstract class Input extends Element {
         if (isset($props['listFields'])) {
             $res['listFields'] = $props['listFields'];
         }
+
+        if (isset($props['allowUpdate'])) {
+            $res['allowUpdate'] = true;
+        }
         if (isset($props['linkFields'])) {
             $res['linkFields'] = $props['linkFields'];
         }

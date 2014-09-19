@@ -170,7 +170,7 @@ abstract class Synapse {
 			if (is_array($this->content[ $type ][ $propOrValue ]) && in_array($value, $this->content[ $type ][ $propOrValue ])) 
 				array_splice( $this->content[ $type ][ $propOrValue ], array_search($value, $this->content[ $type ][ $propOrValue ]) , 1);
 		else 
-			if (is_array($this->content[ $type ]) && in_array($$propOrValue, $this->content[ $type ])) 
+			if (is_array($this->content[ $type ]) && in_array($propOrValue, $this->content[ $type ])) 
 				array_splice( $this->content[ $type ], array_search($propOrValue, $this->content[ $type ]), 1);
 	}
 

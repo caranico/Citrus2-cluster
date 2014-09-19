@@ -11,6 +11,7 @@ class Form extends Element {
     protected $elements;
     protected $values;
     protected $marker;
+    protected $classSlug = '';
     protected $jsSchema;
     protected $jsMethod = 'post';
 
@@ -32,8 +33,12 @@ class Form extends Element {
     {        
         if (is_array( $mixed ))
             $this->values = (object) $mixed;
-        else if (is_object( $mixed ) && is_a( $mixed, '\Citrus\Cluster\Orm\ModelInterface'))
+        else if (is_object( $mixed ) && is_a( $mixed, '\Citrus\Cluster\Orm\ModelInterface')) 
+        {
             $this->values = $mixed;
+            $info = $mixed->getSchema()->getInformations();
+            $this->classSlug = ObjectController::getSlug(substr($info['class'], strpos($info['class'], '\\', 1)));
+        }
         if ($render) $this->render();
     }
 
@@ -145,6 +150,7 @@ class Form extends Element {
                 'method' => $this->jsMethod
             ),
             'schema' => $this->jsSchema,
+            'objectSlug' => $this->classSlug,
             'callbacks' => $arrCallBack
         );
 
