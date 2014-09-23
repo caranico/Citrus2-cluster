@@ -62,8 +62,16 @@ class Form extends Element {
         $this->jsSchema[ $params[0] ] = $params[2];
     }
 
+    public function addProperties( $params, $value = false )
+    {
+        if (is_array( $params ))
+            $this->properties = TArray::merge( $this->properties, $params );
+        else $this->properties[ $params ] = $value;
+    }
+
     public function render()
     {
+        $this->elements = array();
         foreach ( $this->properties as $id => $props ) {
             if (!isset($props['definition']['primary']) && (!isset($props['constraint']['display']) || $props['constraint']['display'])) 
             {
@@ -93,7 +101,7 @@ class Form extends Element {
         else return $this->elements[ $name ];
     }
 
-    public static function fromObject( $object, $action ) {
+    public static function fromObject( $object, $action, $generate = true ) {
 
         $view = call_user_func(array($object, 'getView'));
         $sch = call_user_func(array($object, 'getSchema'));
@@ -110,7 +118,7 @@ class Form extends Element {
             "properties" => TArray::merge( $propSchema, $propView )
         ));
 
-        $f->attachObject( $object, true );
+        $f->attachObject( $object, $generate );
         return $f;
     }
 
