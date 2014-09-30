@@ -50,12 +50,23 @@ class ControllerResolver extends SfControllerResolver
                 $this->app['config']['current_app'],
                 $ctrlName
             ) );
+
             $request->attributes->set('_controller', $app . '/' . $class.'/'.$action);
             $request->attributes->set('_object', preg_replace('/Controller$/', '', $class));
             $request->attributes->set('_method', $action);
         }
 
+
+        if ($this->app->isUserLogged() && !isset($arrRight[$ctrl]['safe']) && !$this->app->user->hasRight($request->getRequestUri()))
+        {
+            $request->attributes->set('_controller', $app . '/' . $this->app['config']['default_ctrl'] . '/'. $this->app['config']['layout']['403']);
+            $request->attributes->remove('_object');
+            $request->attributes->remove('_method');
+        }
+
         $res = parent::getController( $request );
+
+
         if ($res == array('Citrus\Core\Controller\ErrorController', 'doException'))
         {
             $request->attributes->set('_controller', $app . '/' . $this->app['config']['default_ctrl'] . '/'. $this->app['config']['layout']['404']);

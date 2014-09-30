@@ -122,7 +122,11 @@ abstract class Synapse {
 					break;
 				case 'exec' :
 					$closure = 	call_user_func_array( array( $this, '_get'), array( strtolower($matches[2]) ) );
-					if ( $closure && get_class( $closure ) == 'Closure') return call_user_func_array( $closure, $arguments );
+					if ( $closure && is_object($closure) && $closure instanceOf \Closure) {
+						if (!is_array( $arguments )) $arguments = array( $arguments );
+						return call_user_func_array( $closure, $arguments );
+					}
+					else return false;
 					break; 
 			}
 		}

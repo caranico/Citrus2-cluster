@@ -295,7 +295,13 @@ Class View extends inc\Synapse {
 				}
 			}
 			if ($action) 
-				$cell['action']='<form class="jform action" action="">' . $action . '</form>';
+			{
+				if (is_object($action) && get_class($action) == 'Closure')
+				{
+					$cell['action']='<form class="jform action" action="">' . $action($request->currentApp) . '</form>';
+				}
+				else $cell['action']='<form class="jform action" action="">' . $action . '</form>';
+			}
 			$responce->rows[] = array('cell' => $cell);
 		}
 		return $responce;

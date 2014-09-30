@@ -92,11 +92,14 @@ class ObjectController extends Controller {
         }
         else 
         {
+        	$search = $view->getList('searchTemplate');
+        	if (is_object($search) && $search instanceOf \Closure)
+        		$search = $search( $request->currentApp );
 			return array(
 				'object'=> $view->getInformations('name'),
 				'objects'=> $view->getInformations('pluriel'),
 				'className'=> $this->className,
-				'search'=> $view->getList('searchTemplate'),
+				'search'=> $search,
 				'fields'=> $view->getList('search'),
 				'jqgrid'=> $view->jqgrid(),
 			);
