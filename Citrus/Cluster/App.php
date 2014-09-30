@@ -58,6 +58,7 @@ class App extends CitrusApp
 
         $this['session'] = $this->registerProvider(new SessionServiceProvider());
 
+        $this['request']->currentApp = $this;
 
         /*
             Autodetection selon le hostname
