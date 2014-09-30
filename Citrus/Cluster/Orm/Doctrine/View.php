@@ -351,9 +351,10 @@ Class View extends inc\Synapse {
 					if (!isset($prop['definition']['enctype']))
 						$firstLine[] = $field['libelle'];
 				}
-				if ($prop['definition']['type'] == Schema::DATETIME) {
+				if (isset($prop['definition']['type']) && $prop['definition']['type'] == Schema::DATETIME) {
 					$res[] = $obj->$id->format("d/m/Y H:i:s");
 				}
+				else if ( is_object($obj->$id) && is_a( $obj->$id ,'Doctrine\ORM\PersistentCollection' ) )$res[] = count( $obj->$id );
 				else if (!isset($prop['definition']['enctype'])) {
 					$res[] = $obj->$id;
 				}
