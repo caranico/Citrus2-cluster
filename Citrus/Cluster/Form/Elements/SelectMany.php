@@ -49,7 +49,10 @@ class SelectMany extends Input {
                 $sch = $class::getView();
                 $props = $sch->getProperties();
                 foreach ($this->params['listFields'] as $k=>$v) 
-                    $head[]='<th><span>' . (is_array($props[ $v ]) ? $props[ $v ]['libelle'] : $props[ $v ]) . '</span><span class="sort"></span></th>';
+                    if (isset($this->params['listFieldsAlternate'][$v]) && is_object($this->params['listFieldsAlternate'][ $v ]) && $this->params['listFieldsAlternate'][ $v ] instanceOf \Closure)
+                        $head[]='<th><span>' . $v . '</span><span class="sort"></span></th>';
+                    else
+                        $head[]='<th><span>' . (is_array($props[ $v ]) ? $props[ $v ]['libelle'] : $props[ $v ]) . '</span><span class="sort"></span></th>';
                 if (isset($this->params['allowUpdate']) && $this->params['allowUpdate'])
                     $head[]='<th rel="actions"></th>';
 
@@ -59,15 +62,18 @@ class SelectMany extends Input {
                     foreach ($this->value as $value) {
                         $tbody = array();
                         foreach ($this->params['listFields'] as $k=>$v) {
+                            if (isset($this->params['listFieldsAlternate'][$v]) && is_object($this->params['listFieldsAlternate'][ $v ]) && $this->params['listFieldsAlternate'][ $v ] instanceOf \Closure)
+                                $valueReel = $this->params['listFieldsAlternate'][ $v ]($value);
+                            else $valueReel = $value->$v;
                             if (isset($this->params['linkFields']) && in_array($v, array_keys($this->params['linkFields']))) {
                                 $obj = $value->toArray();
                                 $lnk = $this->params['linkFields'][$v];
                                 foreach ( $obj as $k0 => $v0 ) if (!is_array($v0))
                                     $lnk = preg_replace("/{" . $k0 . "}/", $v0, $lnk );
-                                $tbody[]='<td><span><a href="' . $lnk . '">' . $value->$v . '</a></span></td>';
+                                $tbody[]='<td><span><a href="' . $lnk . '">' . $valueReel . '</a></span></td>';
                             }
                             else
-                                $tbody[]='<td><span>' . $value->$v . '</span></td>';
+                                $tbody[]='<td><span>' . $valueReel . '</span></td>';
                         }
                         if (isset($this->params['allowUpdate']) && $this->params['allowUpdate'])
                             $tbody[]='<td><button class="red"><span>Supprimer</span></button> <button class="green"><span>Editer</span></button></td>';
