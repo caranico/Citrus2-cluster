@@ -278,8 +278,10 @@ Class View extends inc\Synapse {
 		foreach ( $lst as $object ) {
 			foreach ( $listField as $col ) {
 				$value = $object->$col;
-				if (is_array($value)) $cell[ $col ] = implode(',',$value);
-				if (is_object($value)) {
+				if (isset($lstOption['listAlternate'][ $col ]) && is_object($lstOption['listAlternate'][ $col ]) && $lstOption['listAlternate'][ $col ] instanceOf \Closure)
+					$cell[ $col ] = $lstOption['listAlternate'][ $col ]( $value );
+				else if (is_array($value)) $cell[ $col ] = implode(',',$value);
+				else if (is_object($value)) {
 					if ( get_class($value) == 'DateTime' ) $cell[ $col ] = $value->format('d/m/Y H:i:s');
 					else if ( get_class( $value ) == 'Doctrine\ORM\PersistentCollection' ) $cell[ $col ] = count( $value );
 					else if ( is_a( $value, 'Citrus\Cluster\Orm\Doctrine\Model' ) ) {
