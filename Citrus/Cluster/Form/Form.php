@@ -56,10 +56,10 @@ class Form extends Element {
         );
     }
 
-    public function addTransfert( Array $params )
+    public function addTransfert( Array $params, $newName = false )
     {
-        $this->elements[ $params[0] ] = $params[1];
-        $this->jsSchema[ $params[0] ] = $params[2];
+        $this->elements[ $newName ? $newName : $params[0] ] = $params[1];
+        $this->jsSchema[ $newName ? $newName : $params[0] ] = $params[2];
     }
 
     public function addProperties( $params, $value = false )
@@ -67,6 +67,13 @@ class Form extends Element {
         if (is_array( $params ))
             $this->properties = TArray::merge( $this->properties, $params );
         else $this->properties[ $params ] = $value;
+    }
+
+    public function getProperties( $key = false )
+    {
+        if ($key === false) return $this->properties;
+        else if (isset($this->properties[ $key ])) return $this->properties[ $key ];
+        else return false;
     }
 
     public function render()

@@ -126,6 +126,9 @@ class ObjectController extends Controller {
 		if ($id) $this->resource = call_user_func_array( array( str_replace('Controller', '', get_called_class()), 'selectOne'), array( (int) $id ) );
 	}
 
+	public function setInstance( $object ) {
+		$this->resource = $object;
+	}
 
 
     static public function getSlug( $class )

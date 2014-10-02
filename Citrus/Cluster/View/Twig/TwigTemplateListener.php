@@ -57,27 +57,32 @@ class TwigTemplateListener implements EventSubscriberInterface
                 $args['layout'] = $this->container->defaultLayout( $request );
                 $args['app'] = $this->container;
                 $tr = new TwigTemplateResolver( $this->container );
-                $template = $tr->getTemplate($request);
-
 
                 $template_engine = $this->container->get('template_engine');
 
-                if (is_array($template))
+                if ($request->get('_forcedView', false))
+                    $template = $request->get('_forcedView', false);
+                else
                 {
-                    $arrTemplate = $template;
-                    $found = false;
-                    foreach ( $arrTemplate as $tpl ) {
-                        if ($found) continue;
-                        else if ( $template_engine->getLoader()->exists( $tpl.TwigTemplateEngine::$extension ) ) {
-                            $found = true;
-                            $template = $tpl;
-                        }
-                    }    
+                    $template = $tr->getTemplate($request);
+
                     if (is_array($template))
                     {
-                        echo 'Erreur template  non trouvé parmis: ' . chr(10) .implode(chr(10), $template);
-                        return;
-                    }    
+                        $arrTemplate = $template;
+                        $found = false;
+                        foreach ( $arrTemplate as $tpl ) {
+                            if ($found) continue;
+                            else if ( $template_engine->getLoader()->exists( $tpl.TwigTemplateEngine::$extension ) ) {
+                                $found = true;
+                                $template = $tpl;
+                            }
+                        }    
+                        if (is_array($template))
+                        {
+                            echo 'Erreur template  non trouvé parmis: ' . chr(10) .implode(chr(10), $template);
+                            return;
+                        }    
+                    }
                 }
                 $template_engine->loadTemplate($template);
                 $content = $template_engine->render($args);
