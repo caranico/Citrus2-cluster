@@ -28,7 +28,8 @@ class TObject
     static private function _recurseFunctValide( &$object )
     {
         foreach ( $object as $key => &$value ) {
-            if (is_array( $value ) || is_object( $value )) self::_recurseFunctValide( $value );
+            if (is_object($value) && $value instanceOf \Closure) $value='';
+            else if (is_array( $value ) || is_object( $value )) self::_recurseFunctValide( $value );
             else if (preg_match('/^function(.*)\}$/', $value ))
                 $value = '!!!' . stripslashes($value) . '*!!';
         }

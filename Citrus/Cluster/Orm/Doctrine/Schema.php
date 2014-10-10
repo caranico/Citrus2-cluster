@@ -192,10 +192,12 @@ Class Schema extends inc\Synapse {
                     }
 
                     $lst = empty($propValue) ? array() : call_user_func(array($rel['foreign']['class'], 'selectAll'), 'WHERE self.id IN (' . $propValue . ')');
-
                     foreach( $obj->getData($propName) as $el )
                         if (!in_array( $el, $lst)) {
-                            $obj->getData($propName)->removeElement( $el );
+                            if (isset($rel['foreign']['manyToManyLink'])) 
+                                $el->delete();
+                            else
+                                $obj->getData($propName)->removeElement( $el );
                             if (isset($rel['foreign']['property'])) 
                                 $el->setData($rel['foreign']['property'], null);
                         }
