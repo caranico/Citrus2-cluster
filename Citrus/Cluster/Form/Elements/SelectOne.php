@@ -25,7 +25,11 @@ class SelectOne extends Input {
         switch ($this->params['appearence'])
         {
             case 'minimal':
-                return '<span class="choice">' .
+                if(!isset($this->params['label']['attributes']['class'])) $this->params['label']['attributes']['class'] = 'choice';
+                else $this->params['label']['attributes']['class'] .= ' choice';
+
+
+                return '<span ' . $this->renderLabelAttributes().'>' .
                         '<span class="label">' . $this->params['label']['libelle'] . '</span>' .
                         $this->renderRadios().
                     '</span>';

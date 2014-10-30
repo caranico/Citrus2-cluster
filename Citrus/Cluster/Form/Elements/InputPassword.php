@@ -13,7 +13,7 @@ class InputPassword extends Input {
 
     public function __toString()
     {
-        return '<label>' .
+        return '<label ' . $this->renderLabelAttributes().'>' .
         		'<span class="label">' . $this->params['label']['libelle'] . '</span>' .
         		'<input ' . $this->renderAttributes().' />' .
 			'</label>';

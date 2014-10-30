@@ -53,6 +53,11 @@ abstract class Input extends Element {
         }
     }
 
+    public function setClassname( $name )
+    {
+        $this->params['label']['attributes']['class'] = $name;
+    }
+
     static public function objFromProperties( $id, $props, $value = null )
     {
         $res = array();

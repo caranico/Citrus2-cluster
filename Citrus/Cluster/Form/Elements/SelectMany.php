@@ -26,7 +26,11 @@ class SelectMany extends Input {
         switch ($this->params['appearence'])
         {
             case 'minimal':
-                return '<span class="choice">' .
+                if(!isset($this->params['label']['attributes']['class'])) $this->params['label']['attributes']['class'] = 'choice';
+                else $this->params['label']['attributes']['class'] .= ' choice';
+
+
+                return '<span ' . $this->renderLabelAttributes().'>' .
                         '<span class="label">' . $this->params['label']['libelle'] . '</span>' .
                         $this->renderCheckboxes().
                     '</span><input type="hidden" name="' . $this->params['properties']['name'] . '" value="' . $this->renderValues(false). '" />';
@@ -38,7 +42,10 @@ class SelectMany extends Input {
                     'fields' => $this->params['listFields'],
                     'from' => $this->params['targetProperty']
                 );
-                $sel = '<div class="manyTable" rel="' . htmlspecialchars( json_encode($params) , ENT_QUOTES ) . '">';
+                if(!isset($this->params['label']['attributes']['class'])) $this->params['label']['attributes']['class'] = 'manyTable';
+                else $this->params['label']['attributes']['class'] .= ' manyTable';
+
+                $sel = '<div ' . $this->renderLabelAttributes().' rel="' . htmlspecialchars( json_encode($params) , ENT_QUOTES ) . '">';
 
                 if (isset($this->params['allowUpdate']) && $this->params['allowUpdate'])
                     $sel .= '<button class="orange"><span>Ajouter</span></button>';
