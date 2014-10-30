@@ -37,25 +37,38 @@ Class View extends inc\Synapse {
 		$form = $this->getProperties();
 
 		$allField = $sh->getProperties();
-		$listField = array_keys($allField);
+
+		$listField = array_merge(array_keys($allField), array_diff ($list['list'], array_keys($allField)));
 
 		$colNames = array();
 		$colModel = array();
 		$arr = explode(' ', $list['order']);
 		$ordername = $arr[0];
 		$ordersort = strtolower($arr[1]);
+
 		foreach ($listField as $field) {
 			if (!is_array($form[ $field ])) $form[ $field ] = array('libelle' => $form[ $field ]);
 
-			$fieldProp = array_replace_recursive( array(
-				'definition' => array(
-					'primary' 	=> false
-				),
-				'constraint' => array(
-					'readonly' 	=> false,
-					'hidden' 	=> false
-				)
-			), $sh->getProperties($field), $form[ $field ]);
+			if ($sh->getProperties($field))
+				$fieldProp = array_replace_recursive( array(
+					'definition' => array(
+						'primary' 	=> false
+					),
+					'constraint' => array(
+						'readonly' 	=> false,
+						'hidden' 	=> false
+					)
+				), $sh->getProperties($field), $form[ $field ]);
+			else
+				$fieldProp = array_replace_recursive( array(
+					'definition' => array(
+						'primary' 	=> false
+					),
+					'constraint' => array(
+						'readonly' 	=> false,
+						'hidden' 	=> false
+					)
+				), $form[ $field ]);
 
 			$editable 	= !($fieldProp['constraint']['readonly'] || $fieldProp['definition']['primary']);
 			$hidden 	= $fieldProp['constraint']['hidden'] || $fieldProp['definition']['primary'] || !in_array($field,$this->getList('list'));
@@ -223,8 +236,9 @@ Class View extends inc\Synapse {
 		$class = $this->getClass();
 		$sh = Adapter::getSchema( $class );
 		$lstOption = Adapter::getView( $class )->getList();
+
 		$allField = $sh->getProperties();
-		$listField = array_keys($allField);
+		$listField = array_merge(array_keys($allField), $lstOption['list']);
 		
 		if (!$lst)
 		{
@@ -279,7 +293,7 @@ Class View extends inc\Synapse {
 			foreach ( $listField as $col ) {
 				$value = $object->$col;
 				if (isset($lstOption['listAlternate'][ $col ]) && is_object($lstOption['listAlternate'][ $col ]) && $lstOption['listAlternate'][ $col ] instanceOf \Closure)
-					$cell[ $col ] = $lstOption['listAlternate'][ $col ]( $value );
+					$cell[ $col ] = $lstOption['listAlternate'][ $col ]( $sh->getProperties($col) ? $value : $object );
 				else if (is_array($value)) $cell[ $col ] = implode(',',$value);
 				else if (is_object($value)) {
 					if ( get_class($value) == 'DateTime' ) $cell[ $col ] = $value->format('d/m/Y H:i:s');
@@ -289,12 +303,11 @@ Class View extends inc\Synapse {
 						$cell[ $col . '_id' ] = $value->id;
 					}
 				}
-				else {
-					if ( isset($lstOption['link']) && in_array( $col,  $lstOption['link'])) {
-						$cell[ $col ] = '<a href="/classes/' . $slug . '/' . $object->id . '/' . (isset($lstOption['linkAction']) ? $lstOption['linkAction'] : 'edit') . '">' . $value . '</a>'; 
-					}
-					else $cell[ $col ] = $value;
-				}
+				else $cell[ $col ] = $value;
+
+				if ( isset($lstOption['link']) && in_array( $col,  $lstOption['link'])) 
+					$cell[ $col ] = '<a href="/classes/' . $slug . '/' . $object->id . '/' . (isset($lstOption['linkAction']) ? $lstOption['linkAction'] : 'edit') . '">' . $cell[ $col ] . '</a>'; 
+
 			}
 			if ($action) 
 			{

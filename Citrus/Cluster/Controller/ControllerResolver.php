@@ -60,6 +60,7 @@ class ControllerResolver extends SfControllerResolver
         if ($this->app->isUserLogged() && !isset($arrRight[$ctrl]['safe']) && !$this->app->user->hasRight($request->getRequestUri()))
         {
             $request->attributes->set('_controller', $app . '/' . $this->app['config']['default_ctrl'] . '/'. $this->app['config']['layout']['403']);
+            $request->attributes->set('_login', true );
             $request->attributes->remove('_object');
             $request->attributes->remove('_method');
         }

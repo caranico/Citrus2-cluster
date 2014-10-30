@@ -478,14 +478,14 @@ Class Schema extends inc\Synapse {
                 if ( $prop['type'] == Schema::ONE_TO_ONE || $prop['type'] == Schema::MANY_TO_ONE)
                     $res[ $ref ] = $id ? $id->toArray( false ) : '';
                 else if ( $prop['type'] == Schema::ONE_TO_MANY || $prop['type'] == Schema::MANY_TO_MANY) {
-                    if ($id) foreach ( $id as $object ) $res[ $ref ][] = $object->toArray( false );
+                    if ($id && count($id)>0) foreach ( $id as $object ) $res[ $ref ][] = $object->toArray( false );
                     else $res[ $ref ] = array();
                 }
             } else if ($simple) {
                 if ( $prop['type'] == Schema::ONE_TO_ONE || $prop['type'] == Schema::MANY_TO_ONE)
                     $res[ $ref ] = $id ? (string) $id : '';
                 else if ( $prop['type'] == Schema::ONE_TO_MANY || $prop['type'] == Schema::MANY_TO_MANY) {
-                    if ($id) foreach ( $id as $object ) $res[ $ref ][] = (string) $object;
+                    if ($id && count($id)>0) foreach ( $id as $object ) $res[ $ref ][] = (string) $object;
                     else $res[ $ref ] = array();
                 }
             }
